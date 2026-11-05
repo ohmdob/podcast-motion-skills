@@ -1,12 +1,12 @@
 ---
 name: podcast-motion-animatic
-description: The Animatic look for a podcast or talk-show film - storyboard panels held on screen and moved in stepped, hand-made motion, cut to the real voice, with pencil-sketched pictures and lettered words in loose frames, and the real speaker between panels. Works with footage or from audio alone, in 16:9 and 9:16. Use when the producer picks Animatic, wants an animated or illustrated feel for a talk, or has an audio-only podcast with no camera to turn into video. Works with podcast-playbook, which does the sound, the transcript and the cut. Triggers include "animatic", "animatic podcast", "สตอรี่บอร์ด", "ภาพสเก็ตช์", "พอดแคสต์เสียงอย่างเดียว", "audio-only podcast video".
+description: The Animatic look for a podcast or talk-show film - storyboard panels held on screen and moved in stepped, hand-made motion, cut to the voice, with pencil-sketched pictures and lettered words in loose frames, and the speaker between panels. Optional cards beside the speaker, pictures that move with the story and a themed blueprint ground. Works with footage, from audio alone, or from a script with drawn hosts, in 16:9 and 9:16. Use when the producer picks Animatic, wants an animated or illustrated feel for a talk, or has an audio-only podcast with no camera to turn into video. Works with podcast-playbook, which does the sound, the transcript and the cut. Triggers include "animatic", "animatic podcast", "animatic motion", "การ์ดอธิบาย", "ภาพเคลื่อนไหวเล่าเรื่อง", "สตอรี่บอร์ด", "ภาพสเก็ตช์", "พอดแคสต์เสียงอย่างเดียว", "audio-only podcast video".
 model: claude-opus-5-5
 ---
 
 # Podcast Motion: Animatic
 
-**Status: a candidate, test frames only.** It has been built and read on real frames from one real episode, and from a test recording with no camera. It has not had a full-length render or a producer's approval. So: show the test frames and get a decision before any long render, then record the result in the show's `STYLES.md`. Read `podcast-playbook` first: it holds the sound, the cut, the gates and the master.
+**Status: one scripted film rendered and approved by its producer: 2 minutes, two drawn hosts, cards, blueprint, 16:9.** On real footage and at 9:16 it has only been read on test frames, so show those and get a decision before any long render, then record the result in the show's `STYLES.md`. Read `podcast-playbook` first: it holds the sound, the cut, the gates and the master.
 
 - **Idea:** a storyboard brought to life. Each point in the talk is a panel, held and moved in stepped motion, under the real voice.
 - **Best for:** talks about things you can draw, and audio-only shows.
@@ -16,6 +16,8 @@ model: claude-opus-5-5
 ## Faces stay natural
 
 **Panels draw ideas and objects, never the people talking.** An illustrated guest is the one thing this look must not do: the guest's credibility is the point of the show, and a stylised face has already been rejected on sight on a real show. So **never give it a picture of a person,** and don't ask a generator to draw one. Between panels you see the real speaker, in natural colour.
+
+**Hosts who are already characters are the one exception,** when the producer asks: the reason above is about a real person's credibility. They take the speaker's place, and panels still show only objects and words. See `references/scripted-show.md` in `podcast-playbook`.
 
 ## Build
 
@@ -47,6 +49,29 @@ Save as `assets_src/panels/cup.png`, and write `{"panel": "cup"}` on the card.
 
 **What makes it read as drawn:** the moves run at six steps a second (`steps()`), and cuts are hard. Smooth motion turns it into a slideshow, so leave that alone.
 
+## Cards, motion and theme
+
+What one producer asked for, one request at a time, and all of it held up. Each is off until the show asks, and the code is in `scripts/animatic_cards.py`, whose top lists every option.
+
+```json
+"looks": {"animatic": {"layout": "card", "blueprint": true, "paper": "#0A1A33", "ink": "#E6F4FF", "pencil": "#9CC4E4", "accent": "#FFB547"}}
+```
+
+- **`"layout": "card"` keeps the speaker on screen.** A full-frame panel hides them, and the producer asked for image cards and explaining text like Pop Studio's. The card takes the side away from whoever is talking: heading first, rows landing on their words and staying, then a picture filling what the words leave. 16:9 only so far. Type behind the hosts, Pop Studio's other half, needs a cutout, so it isn't here.
+- **`opts.motion` moves the picture with the story.** Built in: `still`, `drop`, `arc`, `fly`, `drift`, `sway`, `hop`, `swarm`, `flipbook`. A slow push-in on every panel wasn't enough for the producer; a ball being thrown tells the story as well as showing it. Write your own in `moves.py`: `examples/hail-mary/moves.py` has one line told in three drawings, and a ball from early in the film landing at the end.
+- **`"blueprint": true` themes it.** Take the theme from the story, and ask: a navy grid suited a space film. It inverts every sketch and lays it over with screen, so moved pictures show no edge.
+- **Draw what a generator can't give you cleanly.** A flipbook of 18 drawings, a walking alien and a solid ship cost nothing, and read better than sketched photographs. `examples/hail-mary/draw_art.py` shows how. A drawing of someone else's character is still theirs, so raise it before publishing.
+- **`"wide"` in `paper.json`** gives a two-shot. Hosts who trade short lines never get one from the planner, and a viewer should see both early and at the end.
+
+## Mistakes already paid for
+
+- **A card must land on its own framing.** The planner holds a shot for at least a second, so a card could hide half a face for 0.9 s. In card layout the shots now cut exactly on card edges and on each change of speaker.
+- **A sliver of the other host at the frame edge looks like a mistake.** The card gets a solid strip out to the edge behind it.
+- **Picture too small in its window:** give it what the words leave, then use `zoom`. A busy row of text over a tiny apple looked unfinished.
+- **Flip a picture that flies backwards.** The ship's nose pointed the way it had come.
+- **Check that what hangs meets what it hangs from.** Strings stopping short of the puppet were on screen for 10 s before a fresh reviewer said so.
+- **A lettered card is the weakest one on a film with moving pictures.** Keep them for a number, and draw something for the rest.
+
 ## No camera
 
 For a show with audio only, make a plain video from the recording, and the whole pipeline runs as usual:
@@ -77,3 +102,4 @@ Handwriting is Itim, which holds Thai and Latin.
 - **A panel covers the speaker completely,** so don't put one over the moment their face is doing the work.
 - **The same picture repeating** is fine for a few cards, and gets tired past that.
 - **Fine on purpose:** `timeline_track_too_dense`, because a chapter holds many timed panels.
+- **Step through each card's arrival frame by frame.** The first second of a card is where framing and entrance faults hide, and samples every few seconds miss them.

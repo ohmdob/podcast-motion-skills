@@ -1,0 +1,5 @@
+{"background": "assets/set.png", "front": "assets/set_front.png", "live": "tools/deck.py",
+ "H": {"base": "assets/cast/frozen_v2.png", "mouth": "assets/cast/frozen_v2_mouth.png", "blink": "assets/cast/frozen_v2_blink.png",
+       "scale": 0.52734, "at": [-110, 100], "face": [506, 395, 450, 500], "erase": [[1472, 1300, 1700, 1600]], "hair": [1210, 860, 1400]},
+ "G": {"base": "assets/cast/ruby.png", "mouth": "assets/cast/ruby_mouth.png", "blink": "assets/cast/ruby_blink.png",
+       "scale": 0.68571, "at": [1010, 120], "face": [1435, 385, 450, 500], "holes": [[703, 181], [1183, 930], [288, 949], [342, 756], [342, 815]]}}

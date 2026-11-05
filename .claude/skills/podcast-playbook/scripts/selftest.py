@@ -36,6 +36,10 @@ class Fake(http.server.BaseHTTPRequestHandler):
         log.append(('GET', self.path, dict(self.headers), b''))
         if self.path.startswith('/v1/user/subscription'):
             return self.send(200, json.dumps({'character_count': 1000, 'character_limit': 131000, 'tier': 'creator'}).encode())
+        if self.path.startswith('/v1/models'):
+            return self.send(200, json.dumps([{'model_id': 'eleven_v4', 'can_do_text_to_speech': True, 'languages': [{'language_id': 'th'}], 'model_rates': {'character_cost_multiplier': 1.0}}]).encode())
+        if self.path.startswith('/v1/voices'):
+            return self.send(200, json.dumps({'voices': [{'voice_id': 'v1', 'name': 'Mali', 'description': 'A Thai voice'}]}).encode())
         outs = {'0_2': {'images': [{'filename': 'x.png', 'subfolder': '', 'type': 'output'}]}}
         if self.path.startswith('/api/history/'):
             pid = self.path.split('/')[-1]
@@ -107,6 +111,7 @@ def main():
     el.BASE = url
     tmp = Path(tempfile.mkdtemp())
     os.environ['PODCAST_ENV'] = str(tmp / '.env')
+    studio.SKILL = tmp / 'not' / 'the' / 'skill'      # a real .env above the repo must not count here: it would pass as a key the test thinks is empty, and go to the fake server
     (tmp / '.env').write_text(f'# a comment\nexport ELEVENLABS-API="{KEY_E}"\nCOMFY-API={KEY_C}\nEMPTY=\n', encoding='utf-8')
     (tmp / 'show.json').write_text(json.dumps({'name': 't', 'lang': 'tha'}))
     os.chdir(tmp)
@@ -140,6 +145,22 @@ def main():
     check('el: an existing output pays nothing', code == 0 and not posts() and 'nothing spent' in out, out)
     code, out = call(el.main, 'isolate', 'in.wav', 'out.mp3', '--yes', '--force')
     check('el: --force keeps the old file in old/', list((tmp / 'old').glob('out-*.mp3')) != [], out)
+
+    # a script into voices
+    log.clear()
+    (tmp / 'script.json').write_text(json.dumps([{'n': 1, 'who': 'H', 't': 'สวัสดี'}, {'n': 2, 'who': 'G', 't': 'ครับ'}], ensure_ascii=False), encoding='utf-8')
+    code, out = call(el.main, 'tts', 'script.json', 'takes', '--voices', 'H=v1,G=v2')
+    check('tts: without --yes it quotes and exits 3', code == studio.EXIT_QUOTE and out.startswith('QUOTE:') and not posts(), out)
+    code, out = call(el.main, 'tts', 'script.json', 'takes', '--voices', 'H=v1')
+    check('tts: a line with no voice stops before spending', code != 0 and not posts(), out)
+    code, out = call(el.main, 'tts', 'script.json', 'takes', '--voices', 'H=v1,G=v2', '--yes')
+    check('tts: one call a line, each with the key in the header', code == 0 and len(posts()) == 2 and posts()[0][2].get('Xi-Api-Key') == KEY_E, out)
+    check('tts: each line gets a ledger row', ledger.read_text(encoding='utf-8').count('ElevenLabs TTS') == 2)
+    log.clear()
+    code, out = call(el.main, 'tts', 'script.json', 'takes', '--voices', 'H=v1,G=v2', '--yes')
+    check('tts: takes that exist pay nothing', code == 0 and not posts() and 'nothing spent' in out, out)
+    code, out = call(el.main, 'voices', '--lang', 'th')
+    check('voices: casting sends nothing paid', code == 0 and not posts() and 'Mali' in out and 'eleven_v4' in out, out)
 
     # failures
     log.clear()

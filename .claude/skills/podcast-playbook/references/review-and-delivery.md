@@ -6,7 +6,7 @@
 2. **`npx hyperframes snapshot --at <every beat>` and read the sheets. Describe each frame as a stranger would.** A first pass on one clip found a half-empty card, half-cut faces, a graphic stopping short of its mark, an end card filling half the frame, and an object colliding with type. `check` caught none of them. An OK from a tool says little: a look here once reported OK with a white layer hiding the whole film.
 3. **`npx hyperframes snapshot --review`,** and open the phone sheet (360 px wide).
 4. **Check the claims** one more time against `STORYBOARD.md`.
-5. **Independent review:** a fresh agent gets only the storyboard and the frames, and returns `t · where · problem → fix`. On a real clip this caught an illustration that implied more than the guest had said, with every number on it correct.
+5. **Independent review:** a fresh agent gets only the storyboard and the frames, and returns `t · where · problem → fix`. On a real clip this caught an illustration that implied more than the guest had said, with every number on it correct. On a scripted film it caught a critics' score answering a question about the audience, and a camera bug: shots opening up to 0.9 s late, which reading single frames had missed. Give it consecutive frames around each card's arrival, because a fault that lasts a second falls between samples taken every few seconds. Run it before the producer sees the film, not after.
 6. **★ `npx hyperframes preview --background`.** The producer can watch it and edit there. Then render.
 
 ## I. Master and QC

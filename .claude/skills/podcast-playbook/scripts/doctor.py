@@ -37,7 +37,7 @@ print('Services (free checks)')
 has_el, has_comfy = bool(studio.secret('ELEVENLABS-API', start)), False
 if has_el:
     b = el.balance(start)
-    row('ElevenLabs', f'{b[0]:,} of {b[1]:,} credits left ({b[2]})' if b else 'the key was refused, or the service could not be reached')
+    row('ElevenLabs', f'{b[0]:,} of {b[1]:,} credits left ({b[2]})' if b else el.PROBLEM)
     has_el = bool(b)
 else:
     row('ElevenLabs', 'skipped, no key')

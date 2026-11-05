@@ -40,6 +40,7 @@ Check it first with `doctor.py`. On Comfy Cloud, a refusal with HTTP 402 means o
 - **Photographic B-roll:** "Editorial still-life photograph…", lens, light, where the subject sits ("right of centre with calm space on the left", for the card), ending "No text, no letters, no logos, no labels, no people, no hands." Make them bright and high-key if the set is: dark, moody stills looked like stock against bright footage.
 - **No real people.** B-roll shows objects. Never generate someone who looks like a guest or a host.
 - **Objects for a cutout look:** the same photographs, cut out with `swiftc -O $S/cutout_still.swift -o /tmp/cutout && /tmp/cutout in.png out.png`. Clean on a single subject; it finds nothing in a busy picture. If a picture has no single subject, generate one: "Studio product photograph of one single…, centred, isolated on a plain seamless pale grey background…".
+- **Will it survive the sketch?** Pale on pale goes to nothing: a white model ship came out as a few faint lines. A flat white disc with a dark patch read as an eye, not a dimming sun. A simple symbol is cheaper and better drawn in a few lines of code: see `podcast-motion-animatic/examples/hail-mary/draw_art.py`.
 - **One detail wrong?** `edit`, not a re-roll. Precise Edit keeps every untouched pixel, so it can't lose what you liked. `--box x,y,w,h` crops a small detail, edits it at full size and pastes it back.
 
 ### No Ideogram: ask

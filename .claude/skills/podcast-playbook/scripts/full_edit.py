@@ -226,7 +226,8 @@ if '--render' in sys.argv:
         from concurrent.futures import ThreadPoolExecutor
         count = lambda f: int(subprocess.run(['ffprobe', '-v', 'error', '-count_packets', '-select_streams', 'v', '-show_entries', 'stream=nb_read_packets', '-of', 'csv=p=0', str(f)], capture_output=True, text=True).stdout.strip().rstrip(','))
         want = sum(round(q * FPS) - round(p * FPS) for p, q in ranges)
-        if out.exists() and out.stem != 'cold' and count(out) == want and len(ranges) > 1:
+        # Same length is not proof of same picture: a remade source, such as a scripted show's new hosts, has to win.
+        if out.exists() and out.stem != 'cold' and count(out) == want and len(ranges) > 1 and out.stat().st_mtime >= SOURCE.stat().st_mtime:
             print(f'{out.name}: {want} frames already, reused')
             return
         groups = [ranges[i:i + 60] for i in range(0, len(ranges), 60)]

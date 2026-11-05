@@ -27,7 +27,7 @@ Backchannels barely count on a mono mix, because most overlap the other speaker.
 
 1. **Write `paper.json`:** chapters of `[start tc, first words, end tc, last words]` from the transcript you trust (file-formats.md). An empty end anchor cuts at the nearest silence, for where the transcript is unusable.
 2. **Tune with `full_edit.py`:** it reports durations and flags two kinds of bad anchor. A low match is the obvious one. **A range of the wrong length is the dangerous one:** a phrase matched the host's similar line a few seconds early and silently deleted 11 s of an answer. Only a card that collapsed to 0.2 s revealed it.
-3. **`--render` when the length is right.** It checks the picture's frame count against the plan and refuses a mismatch. It also refuses to render over weak anchors unless given `--force`, because a bad anchor can delete part of an answer.
+3. **`--render` when the length is right.** A remade source is picked up by its date, even at the same length; replacing `build/body.mp4` by hand is no longer needed. It checks the picture's frame count against the plan and refuses a mismatch. It also refuses to render over weak anchors unless given `--force`, because a bad anchor can delete part of an answer.
 
 **Fact-check the edit, not only the graphics.** Give a fresh agent the transcript, `cards.json` and `paper.json`. On a real episode it found no wrong numbers, but seven places where a tidy cut or a short card had dropped a condition: a teaser that ended just before the guest's caveat, a rule with its direction cut, a card giving the wrong reason. Restoring them added about 50 s, and that is the right trade. Run it before the long render.
 

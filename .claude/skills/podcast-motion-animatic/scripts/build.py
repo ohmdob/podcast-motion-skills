@@ -288,4 +288,6 @@ def cues(st):
 
 
 if __name__ == '__main__':
+    import animatic_cards     # cards beside the speaker, a blueprint ground, moves for the pictures: off unless the show asks
+    animatic_cards.install(sys.modules[__name__])
     kit.main(sys.modules[__name__])

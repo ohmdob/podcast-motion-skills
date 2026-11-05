@@ -39,6 +39,10 @@ my-show/
 - `people`: leave a name empty until the producer has confirmed it. A look shows no plate for an empty name.
 - `looks`: a show's own colours, by look. Judge a new palette on real frames first.
 
+## script.json and hosts.json (a show with no recording)
+
+`script.json` is `[{"n": 1, "who": "H", "t": "the line"}]`, numbered for good: a line dropped keeps the others' takes. `hosts.json` places drawn hosts and is described at the top of `scripted_source.py`. Both are in `references/scripted-show.md`.
+
 ## paper.json
 
 ```json
@@ -67,7 +71,7 @@ my-show/
 - Pop Studio only: `title_objects` on the title card, `aliases` from a card's object name to a file, `windows` for pictures with no single subject, shown in an arch from `assets_src/pop/src_<name>.png`.
 - Optional paths: `sfx_dir`, and `music: {"a": "...", "b": "..."}`, relative to this folder.
 - Caption-First: `"captions_proofed": true` once a speaker of the language has read them.
-- Animatic: `"audio_only": true` for a show with no camera.
+- Animatic: `"audio_only": true` for a show with no camera. `"wide": [[a, b]]` plays those recording seconds as a two-shot.
 
 **A clip** adds `"clip": true` and `"from": "../../full"`, drops `cold` and `cold_cards`, and has one chapter. `from` is where its audio, transcript, face tracking and voice blend come from. A `voice` in the clip's own file overrides that blend. A clip with no episode behind it leaves out `from` and keeps those files itself.
 
@@ -89,7 +93,7 @@ A list of `[chapter id, start tc, end tc, kind, title, rows, opts]`:
 
 **Kinds:** `q` question · `term` a term and what it means · `stat` a number · `rows` a list · `take` a takeaway · `verdict` a rapid answer. A one-off visual for one claim isn't a kind: hand-build it as its own sub-composition.
 
-**`opts`:** `who` forces the speaker it belongs with (`H` or `G`) · `times` is recording seconds, one per row, to land each row on its word (Whiteboard, Morning Show and Animatic; Studio Cut and Pop Studio space rows evenly) · `obj` and `still` name a picture (Pop Studio and Studio Cut) · `panel` names a picture for Animatic, which also uses `still` and `obj`.
+**`opts`:** `who` forces the speaker it belongs with (`H` or `G`) · `times` is recording seconds, one per row, to land each row on its word (Whiteboard, Morning Show and Animatic; Studio Cut and Pop Studio space rows evenly) · `obj` and `still` name a picture (Pop Studio and Studio Cut) · `panel` names a picture for Animatic, which also uses `still` and `obj` · `motion`, `frames`, `zoom`, `flip` move a picture in Animatic.
 
 Timecodes take `mm:ss` or the `hh:mm:ss` the transcript prints. A card's chapter id must exist in `paper.json`, or the build stops.
 

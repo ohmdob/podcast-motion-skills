@@ -7,6 +7,8 @@
     python3 el.py align   IN.wav TEXT.txt OUT.json                     Forced Alignment, about 21 a minute: a space-separated token gets its own timing
     python3 el.py sfx     "prompt" OUT.mp3 [--dur 1.5] [--influence 0.5]    6-24 with a set duration, 55 without
     python3 el.py music   "prompt" OUT.mp3 --dur 46                    instrumental bed, about 14 a second
+    python3 el.py voices  [--lang th] [--previews DIR --names A,B]     free: models that speak the language, voices in your library, their preview clips
+    python3 el.py tts     SCRIPT.json OUTDIR --voices H=ID,G=ID [--model eleven_v4] [--only 3,5]    one take a line. Thai on eleven_v4 measured about 0.44 a character
 
 A paid command only quotes unless given --yes, and exits 3 having spent nothing. An output that already exists is skipped; --force replaces
 it and keeps the old one in old/. Nothing is ever retried: a duplicate call pays twice, so a lost connection ends in UNKNOWN and a ledger row.
@@ -17,6 +19,9 @@ from pathlib import Path
 import studio
 
 BASE = 'https://api.elevenlabs.io'
+TTS_RATE = {'eleven_v4': 1.0, 'eleven_v3': 1.0, 'eleven_v4_turbo': .5, 'eleven_v3_conversational': .5}    # the most a character can cost; the header on each reply says what it did
+LANG_NAME = {'th': 'Thai', 'en': 'English', 'ja': 'Japanese'}
+PROBLEM = ''     # why balance() came back empty
 PER_SECOND = {'isolate': 660 / 60, 'scribe': 20 / 60, 'align': 15 / 43, 'music': 630 / 46}
 NAMES = {'isolate': 'Audio Isolation', 'scribe': 'Scribe', 'align': 'Forced Alignment', 'sfx': 'SFX', 'music': 'Music'}
 
@@ -31,15 +36,21 @@ def duration(path):
 
 def balance(start=None):
     """(credits left, limit, plan), or None. Free."""
+    global PROBLEM
     key = studio.secret('ELEVENLABS-API', start)
     if not key:
         return None
+    PROBLEM = ''
     try:
         req = urllib.request.Request(BASE + '/v1/user/subscription', headers={'xi-api-key': key})
         with urllib.request.urlopen(req, timeout=20) as r:
             d = json.load(r)
         return d['character_limit'] - d['character_count'], d['character_limit'], d.get('tier', '?')
-    except (urllib.error.URLError, OSError, ValueError, KeyError, http.client.HTTPException):
+    except urllib.error.HTTPError as e:
+        PROBLEM = 'the key was refused (HTTP 401): it is wrong or revoked, so make a new one' if e.code == 401 else f'ElevenLabs answered HTTP {e.code}'
+        return None
+    except (urllib.error.URLError, OSError, ValueError, KeyError, http.client.HTTPException) as e:
+        PROBLEM = f'could not reach ElevenLabs ({type(e).__name__})'
         return None
 
 
@@ -88,9 +99,78 @@ def peak(path):
     return max((abs(x) for x in a), default=0.0)
 
 
+def fetch(path):
+    req = urllib.request.Request(BASE + path, headers={'xi-api-key': studio.need('ELEVENLABS-API')})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return json.load(r)
+    except urllib.error.HTTPError as e:
+        sys.exit(f'FAIL: HTTP {e.code} on {path}: {studio.redact(e.read()[:200].decode("utf-8", "replace"))}')
+
+
+def voices(x):
+    """Free. Casting starts here: preview clips cost nothing, and a producer can often choose from them with no audition at all."""
+    lang = (x.lang or 'th')[:2]
+    for m in fetch('/v1/models'):
+        if m.get('can_do_text_to_speech') and any(l.get('language_id', '')[:2] == lang for l in m.get('languages', [])):
+            print(f"model  {m['model_id']}  rate {m.get('model_rates', {}).get('character_cost_multiplier', '?')}")
+    name = LANG_NAME.get(lang, lang)
+    found = []
+    for v in fetch('/v1/voices').get('voices', []):
+        known = {str(l.get('language', ''))[:2] for l in v.get('verified_languages') or []}
+        desc = (v.get('description') or '').replace('\n', ' ')
+        if lang in known or name in desc or lang == (v.get('labels') or {}).get('language'):
+            found.append(v)
+            print(f"voice  {v['voice_id']}  {v['name'][:30]:<30}  {desc[:90]}")
+    print(f"{len(found)} voices in your library speak {name}. More are in the shared library, but using one takes a voice slot on the account.")
+    if x.previews:
+        want = {n.strip() for n in (x.names or '').split(',') if n.strip()}
+        out = Path(x.previews)
+        out.mkdir(parents=True, exist_ok=True)
+        for v in found:
+            short = v['name'].split(' - ')[0].split()[-1]
+            if v.get('preview_url') and (not want or short in want or v['name'] in want):
+                with urllib.request.urlopen(v['preview_url'], timeout=60) as r:
+                    (out / f'{short}.mp3').write_bytes(r.read())
+                print(f"preview  {out / (short + '.mp3')}")
+    print('OK')
+    return 0
+
+
+def tts(x):
+    """[{n, who, t}] into one take a line, OUTDIR/NN.mp3. A line that changes costs only itself, and a line dropped from the script costs nothing, so tune length after hearing the real voices."""
+    if not (x.a and x.b and x.voices):
+        sys.exit('FAIL: tts needs SCRIPT.json OUTDIR --voices H=ID,G=ID')
+    show = studio.load_show()
+    ids = dict(p.split('=', 1) for p in x.voices.split(','))
+    only = {int(n) for n in x.only.split(',')} if x.only else None
+    model = x.model if x.model != 'scribe_v1' else 'eleven_v4'
+    lines = [l for l in json.loads(Path(x.a).read_text(encoding='utf-8')) if not only or l['n'] in only]
+    gone = sorted({l['who'] for l in lines} - set(ids))
+    if gone:
+        sys.exit(f"FAIL: no voice for {', '.join(gone)}. Give --voices {','.join(w + '=ID' for w in gone)}")
+    out = Path(x.b)
+    todo = [l for l in lines if x.force or not (out / f"{l['n']:02d}.mp3").exists()]
+    if not todo:
+        print(f'OK: all {len(lines)} takes exist, nothing spent')
+        return 0
+    chars = sum(len(l['t']) for l in todo)
+    if not x.yes:
+        b = balance()
+        tail = f' · {b[0]:,} left' if b else ''
+        print(f'QUOTE: {len(todo)} takes, {chars} characters, at most {chars * TTS_RATE.get(model, 1.0):,.0f} credits on {model}{tail}. Nothing spent; add --yes once the producer has approved.')
+        return studio.EXIT_QUOTE
+    code = (x.lang or show['lang'])[:2]
+    for l in todo:
+        body = json.dumps({'text': l['t'], 'model_id': model, 'language_code': code}).encode()
+        call(show['root'], f'ElevenLabs TTS {model}', f"line {l['n']} {l['who']} · \"{l['t'][:40]}\"", f"/v1/text-to-speech/{ids[l['who']]}?output_format=mp3_44100_192", body, 'application/json', out / f"{l['n']:02d}.mp3", timeout=180)
+    print(f'OK: {len(todo)} takes in {out}')
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('cmd', choices=['quota', 'isolate', 'scribe', 'align', 'sfx', 'music'])
+    ap.add_argument('cmd', choices=['quota', 'isolate', 'scribe', 'align', 'sfx', 'music', 'voices', 'tts'])
     ap.add_argument('a', nargs='?')
     ap.add_argument('b', nargs='?')
     ap.add_argument('c', nargs='?')
@@ -100,6 +180,10 @@ def main(argv=None):
     ap.add_argument('--model', default='scribe_v1')
     ap.add_argument('--dur', type=float)
     ap.add_argument('--influence', type=float, default=0.5)
+    ap.add_argument('--previews')
+    ap.add_argument('--names')
+    ap.add_argument('--voices')
+    ap.add_argument('--only')
     ap.add_argument('--yes', action='store_true', help='spend the credits; without it a paid command only quotes')
     ap.add_argument('--force', action='store_true', help='replace an existing output (the old one goes to old/)')
     x = ap.parse_args(argv)
@@ -108,9 +192,14 @@ def main(argv=None):
         studio.need('ELEVENLABS-API')
         b = balance()
         if not b:
-            sys.exit('FAIL: the key was refused, or ElevenLabs could not be reached')
+            sys.exit(f'FAIL: {PROBLEM}')
         print(f'OK: {b[0]:,} of {b[1]:,} credits left ({b[2]})')
         return 0
+
+    if x.cmd == 'voices':
+        return voices(x)
+    if x.cmd == 'tts':
+        return tts(x)
 
     missing = {'isolate': not (x.a and x.b), 'scribe': not (x.a and x.b), 'align': not (x.a and x.b and x.c), 'sfx': not (x.a and x.b), 'music': not (x.a and x.b)}[x.cmd]
     if missing:

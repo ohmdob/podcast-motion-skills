@@ -1,6 +1,6 @@
 ---
 name: podcast-playbook
-description: Turn a raw recorded podcast or talk show into a finished YouTube episode and short clips - sound clean-up, transcript, paper edit, storyboard, one-camera recut, on-screen cards, 16:9 and 9:16, subtitles, master and QC - with ElevenLabs and/or Ideogram through Comfy Cloud, whichever keys are in .env (ELEVENLABS-API, COMFY-API). Sound and transcript have free local fallbacks; with no Ideogram it asks which alternative to use, such as Codex imagegen. Use this whenever the user has a recorded conversation or interview to edit, or wants to plan, cut, clean, caption, clip, master or publish an episode, even if they name only one step - "clean the audio", "find clips in this interview", "make a Short from EP02", "generate stills for this episode", "ตัดพอดแคสต์", "ทำคลิปสั้นจากรายการ", "ตัดตอนใหม่", "ทำเสียงให้สะอาด". The look of the film comes from a podcast-motion-* skill; this skill is the method around it.
+description: Turn a raw recorded podcast or talk show, or a script with no recording at all, into a finished YouTube episode and short clips of 2 to 30 minutes - script and voices, sound clean-up, transcript, paper edit, storyboard, one-camera recut, on-screen cards, 16:9 and 9:16, subtitles, master and QC - with ElevenLabs and/or Ideogram through Comfy Cloud, whichever keys are in .env (ELEVENLABS-API, COMFY-API). Sound and transcript have free local fallbacks; with no Ideogram it asks which alternative to use, such as Codex imagegen. Use this whenever the user has a recorded conversation or interview to edit, or wants to plan, cut, clean, caption, clip, master or publish an episode, even if they name only one step - "clean the audio", "find clips in this interview", "make a Short from EP02", "generate stills for this episode", "ตัดพอดแคสต์", "ทำคลิปสั้นจากรายการ", "ตัดตอนใหม่", "ทำเสียงให้สะอาด", "ทำพอดแคสต์จากสคริปต์", "ไม่มีเทป". The look of the film comes from a podcast-motion-* skill; this skill is the method around it.
 model: claude-opus-5-5
 ---
 
@@ -33,6 +33,7 @@ ELEVENLABS-API=
 ```
 
 - **Either key is optional, and so is having both.** See the table below for what each one changes.
+- **Trust `doctor.py` for what is set.** The shared file can sit in any folder above the skill, and a blank `NAME=` looks set if you only list the names.
 - **Never print a value, and never `cat` or `source` the file.** The names hold a hyphen, so a shell can't export them anyway. To see what a file holds, print names only: `cut -d= -f1 .env`.
 - **`.env` never goes in a skill folder or in git.** Packaging a skill does not exclude it.
 - `COMFY-API` is the key from platform.comfy.org, and Ideogram runs on **Comfy Cloud** (cloud.comfy.org). The optional third line, `COMFY-HOST=http://…:8188`, is for a ComfyUI you run yourself instead. A key is refused over plain http to a public address.
@@ -99,6 +100,10 @@ Read the reference for a stage when you reach it. They hold the commands, the ch
 
 Data files (`show.json`, `paper.json`, `cards.json`, `captions.json`, `edl.json`, `shots.json`) are described in [references/file-formats.md](references/file-formats.md).
 
+### No recording yet
+
+A topic or a script goes through [references/scripted-show.md](references/scripted-show.md): script, casting from free previews, `el.py tts`, then `scripted_source.py`, which makes the recording the stages above expect. Stage D is the script itself, and stages A to C drop away.
+
 ### An episode and a clip are the same pipeline
 
 A **clip** is a one-chapter `paper.json` with `"clip": true` and `"from": "../../full"`. It reuses the episode's audio, transcript and face tracking, so once the whole recording is processed, a clip costs nothing new. `init_show.py --clip EP02/C01_name` makes one, and every look builds it the same way. Only the whole recording needs isolation: a clip with no episode behind it can isolate just its own range (`edl.py`, in sound-and-script.md).
@@ -119,16 +124,16 @@ The look is a separate skill, and there is **no default**. Before building any e
 Each show's `STYLES.md` records which looks it has approved or ruled out, and why. Offer the looks it has approved. A look no one has approved for this show goes on real frames first (every build takes `--frames`), and the producer decides before any long render. **Update `STYLES.md` either way,** including the reason when a look is rejected.
 
 Rules for every look:
-- **Faces stay natural.** No halftone, illustration or anything that stylises a face: the guest's credibility is the point of the show.
+- **Faces stay natural.** No halftone, illustration or anything that stylises a real person's face: the guest's credibility is the point of the show. Characters who are already drawn are different, when the producer asks for them.
 - **Type stays live.** Text never goes in a generated image, so it stays sharp and correct and can be changed.
 - **Show it before building it.** Test frames take minutes; a finished film in a rejected look costs a full round.
-- **Avoid** dark voids, glow, and cream paper with serifs.
+- **Avoid** dark voids, glow, and cream paper with serifs, unless the story asks for it and the producer says so. A sci-fi talk earned a navy blueprint.
 
 HyperFrames does the rendering. For anything hand-built, read the `hyperframes` skill first, then `hyperframes-core`; `hyperframes-animation` and `hyperframes-audio` cover motion and mixing. Those are HyperFrames' own skills: `npx hyperframes skills` installs them. A one-off visual, such as a dial or a chart for one claim, is hand-built this way as its own sub-composition: it belongs to that episode, so it isn't a card kind.
 
 ## What has and hasn't been proven
 
-Be straight with the producer about this. Run end to end on one real episode: a 30-minute, one-camera, two-person talk in Thai at 1920×1080, 25 fps, with the host on the left of frame and the guest on the right. **Other languages, frame rates and three-person shows are not proven.** The cut and the sound stages should carry over; the shot planner assumes two people on one camera, one each side. Publishing (stage J) is a plan that hasn't been run.
+Be straight with the producer about this. Run end to end on one real episode: a 30-minute, one-camera, two-person talk in Thai at 1920×1080, 25 fps, with the host on the left of frame and the guest on the right. Also run on one scripted film: 2 minutes, two drawn hosts, ElevenLabs voices, Thai, 16:9. **Lengths between the two, other languages, frame rates and three-person shows are not proven.** The cut and the sound stages should carry over; the shot planner assumes two people on one camera, one each side. Publishing (stage J) is a plan that hasn't been run.
 
 ## Checklists
 
