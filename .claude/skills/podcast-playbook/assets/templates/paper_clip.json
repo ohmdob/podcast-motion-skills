@@ -1,0 +1,11 @@
+{
+ "title": "Clip title",
+ "sub": "",
+ "clip": true,
+ "from": "../../full",
+ "source": "1080p/EPxx.mp4",
+ "chapters": [
+  {"id": "ch01", "title": "Clip title", "keep": [["00:10", "first words of the range", "00:50", "last words of the range"]]}
+ ],
+ "end_rows": ["The answer, in one line"]
+}

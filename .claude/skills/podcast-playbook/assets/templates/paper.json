@@ -1,0 +1,17 @@
+{
+ "title": "Episode title",
+ "title_lines": ["Episode", "title"],
+ "sub": "Series or topic",
+ "source": "1080p/EPxx.mp4",
+ "voice": {"mix": 0.4, "chain": "gentle"},
+ "cold": [[120.0, 124.8], [310.2, 314.4]],
+ "cold_cards": [["The question people ask?", "q", "H"], ["The answer", "verdict", "G"]],
+ "chapters": [
+  {"id": "ch01", "title": "First chapter", "keep": [["00:03", "first words of the range", "00:16", "last words of the range"]]}
+ ],
+ "end_rows": ["One thing to remember", "Another"],
+ "music_under": [],
+ "title_objects": [],
+ "aliases": {},
+ "windows": []
+}

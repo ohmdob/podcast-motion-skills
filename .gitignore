@@ -1,0 +1,14 @@
+# keys never leave this machine
+.env
+.env.*
+!.env.example
+
+# fetched on first use, with its hash checked: GPL-3.0 and 15 MB
+**/models/*.onnx
+
+# anything a test or a render leaves behind
+**/test_frames*/
+**/__pycache__/
+*.pyc
+.DS_Store
+node_modules/
