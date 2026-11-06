@@ -23,7 +23,7 @@ One 2-minute Thai film about *Project Hail Mary*, built in the looks below from 
 | | | |
 |---|---|---|
 | [![Animatic](showcases/hailmary_animatic.jpg)](showcases/hailmary_animatic.mp4)<br>**Animatic** · [mp4](showcases/hailmary_animatic.mp4) | [![Caption-First](showcases/hailmary_caption_first.jpg)](showcases/hailmary_caption_first.mp4)<br>**Caption-First** · [mp4](showcases/hailmary_caption_first.mp4) | [![Whiteboard](showcases/hailmary_whiteboard.jpg)](showcases/hailmary_whiteboard.mp4)<br>**Whiteboard** · [mp4](showcases/hailmary_whiteboard.mp4) |
-| [![Morning Show](showcases/hailmary_morning_show.jpg)](showcases/hailmary_morning_show.mp4)<br>**Morning Show** · [mp4](showcases/hailmary_morning_show.mp4) | [![Pop Studio](showcases/hailmary_pop_studio.jpg)](showcases/hailmary_pop_studio.mp4)<br>**Pop Studio** · [mp4](showcases/hailmary_pop_studio.mp4) | |
+| [![Morning Show](showcases/hailmary_morning_show.jpg)](showcases/hailmary_morning_show.mp4)<br>**Morning Show** · [mp4](showcases/hailmary_morning_show.mp4) | [![Pop Studio](showcases/hailmary_pop_studio.jpg)](showcases/hailmary_pop_studio.mp4)<br>**Pop Studio** · [mp4](showcases/hailmary_pop_studio.mp4) | [![Studio Cut](showcases/hailmary_studio_cut.jpg)](showcases/hailmary_studio_cut.mp4)<br>**Studio Cut** · [mp4](showcases/hailmary_studio_cut.mp4) |
 
 How it was made, with no recording:
 
