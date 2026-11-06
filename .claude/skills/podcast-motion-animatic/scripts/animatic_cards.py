@@ -4,6 +4,8 @@
 In show.json, "looks": {"animatic": {...}}:
     "layout": "card"     a card beside the speaker, after Pop Studio: a heading, rows that land on their words and stay, and a moving picture, on the side away from whoever is talking. 16:9 only.
     "blueprint": true    pale line on a grid: every sketch is inverted and laid over with screen, so layers never show an edge. Set paper, ink, pencil and accent to suit.
+    "grid": false        with blueprint, a plain ground and no grid: a chalkboard, say (podcast-motion-chalkboard)
+    "colour": true       card pictures keep their colour and sit as photographs, never sketched or greyed (podcast-motion-photo-card). Set "sketch": false with it
 On a card, opts:
     "motion": "arc"      how the picture moves. Built in: still, drop, arc, fly, drift, sway, hop, swarm, flipbook. Works in either layout.
     "frames": "sun"      flipbook: the drawings in assets_src/panels/sun/
@@ -325,9 +327,11 @@ def install(look):
         if st.V or not uses_this(st):
             return base
         p = st.pal
-        win = (f'.win {{ background-color: {p["paper"]}; background-image: linear-gradient({mix(p["paper"], p["ink"], .1)} 2px, transparent 2px), linear-gradient(90deg, {mix(p["paper"], p["ink"], .1)} 2px, transparent 2px); background-size: 85px 85px; isolation: isolate; }}'
-               if p.get('blueprint') else '.win { isolation: isolate; }')
-        blend = 'screen' if p.get('blueprint') else 'multiply'
+        grid = (f'background-image: linear-gradient({mix(p["paper"], p["ink"], .1)} 2px, transparent 2px), linear-gradient(90deg, {mix(p["paper"], p["ink"], .1)} 2px, transparent 2px); background-size: 85px 85px; '
+                if p.get('grid', True) else '')
+        win = (f'.win {{ background-color: {p["paper"]}; {grid}isolation: isolate; }}' if p.get('blueprint')
+               else '.win { isolation: isolate; border-radius: 18px; overflow: hidden; }' if p.get('colour') else '.win { isolation: isolate; }')
+        blend = 'screen' if p.get('blueprint') else 'multiply'     # colour pictures too: their ground is pure white, so layered drawings show through
         return base + f'''
     {win}
     .win img, .win .lay {{ mix-blend-mode: {blend}; }}
@@ -358,9 +362,19 @@ def install(look):
         for f in d.glob('*.jpg'):
             if f.stem.startswith('bp_'):
                 continue
-            v = np.asarray(Image.open(f).convert('L'), np.int16)
-            v = np.where(v > 226, 255, v).astype(np.uint8)     # pure white, so a moved picture shows no edge
-            Image.fromarray(v).save(f, quality=93)
+            if st.pal.get('colour'):
+                rgb = np.asarray(Image.open(f).convert('RGB'), np.float32)
+                edge = np.concatenate([rgb[:12].reshape(-1, 3), rgb[-12:].reshape(-1, 3), rgb[:, :12].reshape(-1, 3), rgb[:, -12:].reshape(-1, 3)])
+                ground = np.maximum(np.median(edge, axis=0), 1)
+                if ground.min() > 150:      # a studio photograph on a pale ground: balance it to white, so it sits on the card with no grey box
+                    rgb = np.clip(rgb * 255 / ground, 0, 255)
+                rgb = np.where((rgb > 226).all(2, keepdims=True), 255, rgb).astype(np.uint8)     # pale ground to pure white, colour kept
+                Image.fromarray(rgb).save(f, quality=93)
+                v = np.asarray(Image.fromarray(rgb).convert('L'), np.int16)
+            else:
+                v = np.asarray(Image.open(f).convert('L'), np.int16)
+                v = np.where(v > 226, 255, v).astype(np.uint8)     # pure white, so a moved picture shows no edge
+                Image.fromarray(v).save(f, quality=93)
             ys, xs = np.where(v < 170)
             BOX[f.stem] = (int(xs.min()), int(ys.min()), int(xs.max()), int(ys.max())) if len(xs) else (0, 0, FW, FH)
             if BLUE:

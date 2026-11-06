@@ -120,6 +120,8 @@ The look is a separate skill, and there is **no default**. Before building any e
 | `podcast-motion-whiteboard` | Footage beside a board that draws what the guest says | No | Test frames only |
 | `podcast-motion-morning-show` | Lower thirds and a topic strip, a format viewers know | No | Test frames only |
 | `podcast-motion-animatic` | Pencil-sketched storyboard panels in stepped motion, under the real voice. Also for audio-only shows | No | Test frames only |
+| `podcast-motion-photo-card` | The Animatic's card beside the speaker, with full-colour pictures. An editorial explainer | No | Test frames on a scripted film |
+| `podcast-motion-chalkboard` | The Animatic's card beside the speaker, in chalk on a green board. A teaching feel | No | Test frames on a scripted film |
 
 Each show's `STYLES.md` records which looks it has approved or ruled out, and why. Offer the looks it has approved. A look no one has approved for this show goes on real frames first (every build takes `--frames`), and the producer decides before any long render. **Update `STYLES.md` either way,** including the reason when a look is rejected.
 
