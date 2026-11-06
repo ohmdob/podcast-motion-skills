@@ -14,6 +14,25 @@ You describe the job in plain words, and the skills run it in stages. They stop 
 | `podcast-motion-whiteboard` | Footage beside a board that draws what the guest says | No | Test frames only |
 | `podcast-motion-morning-show` | Lower thirds and a topic strip, a format viewers know | No | Test frames only |
 
+## Showcase
+
+One 2-minute Thai film about *Project Hail Mary*, built in the looks below from the same script, voices and cut. Click a picture to play its film (720p previews, about 5 MB each).
+
+| | | |
+|---|---|---|
+| [![Animatic](showcases/hailmary_animatic.jpg)](showcases/hailmary_animatic.mp4)<br>**Animatic** · [mp4](showcases/hailmary_animatic.mp4) | [![Caption-First](showcases/hailmary_caption_first.jpg)](showcases/hailmary_caption_first.mp4)<br>**Caption-First** · [mp4](showcases/hailmary_caption_first.mp4) | [![Whiteboard](showcases/hailmary_whiteboard.jpg)](showcases/hailmary_whiteboard.mp4)<br>**Whiteboard** · [mp4](showcases/hailmary_whiteboard.mp4) |
+| [![Morning Show](showcases/hailmary_morning_show.jpg)](showcases/hailmary_morning_show.mp4)<br>**Morning Show** · [mp4](showcases/hailmary_morning_show.mp4) | [![Pop Studio](showcases/hailmary_pop_studio.jpg)](showcases/hailmary_pop_studio.mp4)<br>**Pop Studio** · [mp4](showcases/hailmary_pop_studio.mp4) | |
+
+How it was made, with no recording:
+
+- **Script:** the 29 lines in `podcast-motion-animatic/examples/hail-mary/script.json`, with a source for every claim.
+- **Hosts:** Frozen and Ruby, cast from a written description with Ideogram 4.5 on Comfy Cloud, two options each, then a blink frame by Precise Edit. Mouths are painted in code. About 109 Comfy credits.
+- **Voices:** ElevenLabs `eleven_v4`, WWO ATSAWIN and WWO Mali, chosen from the free previews. 588 credits for 1,335 characters. The voices are synthetic.
+- **Pictures:** the sun, Rocky, the ship and the nebula are drawn in code by `draw_art.py`. Four object stills came from Ideogram, about 72 Comfy credits.
+- **Cut and master:** 1:58.8, each film −14 LUFS, true peak ≤ −1 dBTP, 7/7 QC checks.
+
+Each look was rendered as its build made it, with nothing retouched afterwards. One input differs from a recorded show: Pop Studio's cutout comes from the drawn hosts' own alpha, because the person matte, trained on real people, lost Ruby's head. Not yet fixed: Caption-First's subtitles are a draft no one has proofread, Pop Studio crops Ruby's hair at the frame edge in her close-ups, and Studio Cut breaks one Thai heading mid-word. Rocky is drawn from the novel's description, not the film's design.
+
 ## What you can bring
 
 | You have | What happens | Looks that fit |
@@ -189,7 +208,7 @@ And what isn't:
 
 - **Lengths between those two have not been run.** The 5 to 15 minute row above is scaled, not measured.
 - **Other languages, frame rates, solo shows and three-person shows are not proven.** The cut and sound stages should carry over; the shot planner assumes two people on one camera, one each side.
-- **Caption-First, Whiteboard and Morning Show are candidates.** So is Animatic on real footage. They have been checked on real frames, and have not been rendered at full length or approved by a producer.
+- **Caption-First, Whiteboard and Morning Show are candidates.** So is Animatic on real footage. They have been checked on real frames, and rendered at full length only on the scripted showcase above. No producer has approved them.
 - **Publishing is a plan.** It hasn't been run.
 - **A person still has to listen.** Tools measure the sound, and they can't hear whether a voice is right. A scratch voice that passed every check was rejected in seconds.
 
