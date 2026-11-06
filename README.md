@@ -122,7 +122,7 @@ python3 .claude/skills/podcast-playbook/scripts/doctor.py
 
 ## Keys
 
-Put keys in `.env`, either in this folder or in any folder above it. It's ignored by git, so it never reaches the repo.
+Put keys in `.env`, either in this folder or in any folder above it. It's ignored by git, so it never reaches the repo. A show's folder can have its own `.env`, and a blank line there falls back to this one.
 
 ```
 COMFY_API=
@@ -137,8 +137,6 @@ ELEVENLABS_API=
 | `COMFY_API` | Pictures from Ideogram 4.5 on [Comfy Cloud](https://cloud.comfy.org). Get the key at [platform.comfy.org](https://platform.comfy.org/login) | The skill asks which alternative you want: Codex imagegen, your own photographs, or none |
 
 To use a ComfyUI you run yourself instead of Comfy Cloud, add `COMFY_HOST=http://your-machine:8188`.
-
-The tools read this file themselves, so there's no need to `source` it. The old hyphenated names (`COMFY-API`, `ELEVENLABS-API`) still work. A show's folder can have its own `.env`, and a blank line there falls back to this one.
 
 **Paid calls never run by surprise.** A paid command only quotes unless given `--yes`, nothing retries by itself, and every call gets a row in the show's `data/ledger.md`.
 
