@@ -6,7 +6,7 @@ model: claude-opus-5-5
 
 # Podcast Motion: Comic
 
-**Status: test frames on one scripted film, not yet approved by a producer.** It was built on the Hail Mary showcase (2 minutes, two drawn hosts, Thai, 16:9). It hasn't been run on real footage or approved, so show test frames and get a decision before any long render, then record the result in the show's `STYLES.md`. Read `podcast-playbook` first: it holds the sound, the cut, the gates and the master.
+**Status: one scripted film rendered, not yet approved by a producer.** The Hail Mary showcase (2 minutes, two drawn hosts, Thai, 16:9) was built and rendered in it, and passed the master's QC. It hasn't been run on real footage or approved, so show test frames and get a decision before any long render, then record the result in the show's `STYLES.md`. Read `podcast-playbook` first: it holds the sound, the cut, the gates and the master.
 
 - **Idea:** the speakers keep their own picture with an ink outline, on a halftone page whose colour changes with each card. Each card is a comic panel: a caption box with the heading, the picture, and the rows in a speech bubble whose tail points back at the speaker. A stat or a verdict gets a starburst and a shake; the covers are starbursts too.
 - **Best for:** loud, playful topics, and Shorts that have to stop the scroll.

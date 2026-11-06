@@ -6,7 +6,7 @@ model: claude-opus-5-5
 
 # Podcast Motion: Bento Grid
 
-**Status: test frames on one scripted film, not yet approved by a producer.** It was built on the Hail Mary showcase (2 minutes, two drawn hosts, Thai, 16:9). It hasn't been run on real footage or approved, so show test frames and get a decision before any long render, then record the result in the show's `STYLES.md`. Read `podcast-playbook` first: it holds the sound, the cut, the gates and the master.
+**Status: one scripted film rendered, not yet approved by a producer.** The Hail Mary showcase (2 minutes, two drawn hosts, Thai, 16:9) was built and rendered in it, and passed the master's QC. It hasn't been run on real footage or approved, so show test frames and get a decision before any long render, then record the result in the show's `STYLES.md`. Read `podcast-playbook` first: it holds the sound, the cut, the gates and the master.
 
 - **Idea:** no overlay at all: the footage itself is a rounded tile on a plain canvas. When a card comes, the speaker's tile shrinks to their half and the other half fills with tiles: the heading (dark for a question, blue for a term, the accent for a number), the picture, and one numbered tile per row, each landing on its word. Between cards the tile grows back to the full frame.
 - **Best for:** calm, modern explainers, product talk, and anything that should feel like a keynote.

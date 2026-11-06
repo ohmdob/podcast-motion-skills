@@ -15,20 +15,21 @@ You describe the job in plain words, and the skills run it in stages. They stop 
 | `podcast-motion-morning-show` | Lower thirds and a topic strip, a format viewers know | No | Test frames only |
 | `podcast-motion-photo-card` | The speaker beside a white card: heading, rows on their words, and a full-colour picture that moves. Built on the Animatic's card engine | No | Rendered on a scripted film |
 | `podcast-motion-chalkboard` | The speaker beside a green board: chalk heading and rows, pictures turned to chalk sketches. Built on the Animatic's card engine | No | Rendered on a scripted film |
-| `podcast-motion-comic` | Speakers inked onto a halftone page that changes colour with each card, comic panels with speech bubbles, a starburst on every number | Yes | Test frames on a scripted film |
-| `podcast-motion-evidence` | A cork wall: cards pinned as polaroids with sticky notes, then strung along the ledge, so the board fills up as the case is made | Yes | Test frames on a scripted film |
-| `podcast-motion-bento` | The footage becomes a tile, and every card reflows the grid with tiles for the heading, the picture and each row | No | Test frames on a scripted film |
-| `podcast-motion-chat` | The talk as a messaging app: typing, messages from whoever said them, image messages and stickers, in a feed that keeps the chapter | Yes | Test frames on a scripted film |
+| `podcast-motion-comic` | Speakers inked onto a halftone page that changes colour with each card, comic panels with speech bubbles, a starburst on every number | Yes | Rendered on a scripted film |
+| `podcast-motion-evidence` | A cork wall: cards pinned as polaroids with sticky notes, then strung along the ledge, so the board fills up as the case is made | Yes | Rendered on a scripted film |
+| `podcast-motion-bento` | The footage becomes a tile, and every card reflows the grid with tiles for the heading, the picture and each row | No | Rendered on a scripted film |
+| `podcast-motion-chat` | The talk as a messaging app: typing, messages from whoever said them, image messages and stickers, in a feed that keeps the chapter | Yes | Rendered on a scripted film |
 
 ## Showcase
 
-One 2-minute Thai film about *Project Hail Mary*, built in all eight looks from the same script, voices and cut. Click a picture to play its film (720p previews, about 5 MB each).
+One 2-minute Thai film about *Project Hail Mary*, built in all twelve looks from the same script, voices and cut. Click a picture to play its film (720p previews, about 5 MB each).
 
 | | | |
 |---|---|---|
 | [![Animatic](showcases/hailmary_animatic.jpg)](showcases/hailmary_animatic.mp4)<br>**Animatic** · [mp4](showcases/hailmary_animatic.mp4) | [![Caption-First](showcases/hailmary_caption_first.jpg)](showcases/hailmary_caption_first.mp4)<br>**Caption-First** · [mp4](showcases/hailmary_caption_first.mp4) | [![Whiteboard](showcases/hailmary_whiteboard.jpg)](showcases/hailmary_whiteboard.mp4)<br>**Whiteboard** · [mp4](showcases/hailmary_whiteboard.mp4) |
 | [![Morning Show](showcases/hailmary_morning_show.jpg)](showcases/hailmary_morning_show.mp4)<br>**Morning Show** · [mp4](showcases/hailmary_morning_show.mp4) | [![Pop Studio](showcases/hailmary_pop_studio.jpg)](showcases/hailmary_pop_studio.mp4)<br>**Pop Studio** · [mp4](showcases/hailmary_pop_studio.mp4) | [![Studio Cut](showcases/hailmary_studio_cut.jpg)](showcases/hailmary_studio_cut.mp4)<br>**Studio Cut** · [mp4](showcases/hailmary_studio_cut.mp4) |
-| [![Photo Card](showcases/hailmary_photo_card.jpg)](showcases/hailmary_photo_card.mp4)<br>**Photo Card** · [mp4](showcases/hailmary_photo_card.mp4) | [![Chalkboard](showcases/hailmary_chalkboard.jpg)](showcases/hailmary_chalkboard.mp4)<br>**Chalkboard** · [mp4](showcases/hailmary_chalkboard.mp4) | |
+| [![Photo Card](showcases/hailmary_photo_card.jpg)](showcases/hailmary_photo_card.mp4)<br>**Photo Card** · [mp4](showcases/hailmary_photo_card.mp4) | [![Chalkboard](showcases/hailmary_chalkboard.jpg)](showcases/hailmary_chalkboard.mp4)<br>**Chalkboard** · [mp4](showcases/hailmary_chalkboard.mp4) | [![Comic](showcases/hailmary_comic.jpg)](showcases/hailmary_comic.mp4)<br>**Comic** · [mp4](showcases/hailmary_comic.mp4) |
+| [![Evidence Board](showcases/hailmary_evidence.jpg)](showcases/hailmary_evidence.mp4)<br>**Evidence Board** · [mp4](showcases/hailmary_evidence.mp4) | [![Bento Grid](showcases/hailmary_bento.jpg)](showcases/hailmary_bento.mp4)<br>**Bento Grid** · [mp4](showcases/hailmary_bento.mp4) | [![Chat Feed](showcases/hailmary_chat.jpg)](showcases/hailmary_chat.mp4)<br>**Chat Feed** · [mp4](showcases/hailmary_chat.mp4) |
 
 How it was made, with no recording:
 
