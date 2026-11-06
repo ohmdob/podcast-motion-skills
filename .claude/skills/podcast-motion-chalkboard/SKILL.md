@@ -6,7 +6,7 @@ model: claude-opus-5-5
 
 # Podcast Motion: Chalkboard
 
-**Status: test frames on one scripted film, not yet approved by a producer.** It was built on the Hail Mary showcase (2 minutes, two drawn hosts, Thai, 16:9). It hasn't been run on real footage or approved, so show test frames and get a decision before any long render, then record the result in the show's `STYLES.md`. Read `podcast-playbook` first: it holds the sound, the cut, the gates and the master.
+**Status: one scripted film rendered, not yet approved by a producer.** The Hail Mary showcase (2 minutes, two drawn hosts, Thai, 16:9) was built and rendered in it, and passed the master's QC. It hasn't been run on real footage or approved, so show test frames and get a decision before any long render, then record the result in the show's `STYLES.md`. Read `podcast-playbook` first: it holds the sound, the cut, the gates and the master.
 
 - **Idea:** the Animatic's card beside the speaker, drawn in chalk on a plain green board: every sketch inverted to chalk-white, with a yellow chalk accent.
 - **Best for:** someone teaching or explaining, and topics with a classroom feel.

@@ -13,17 +13,18 @@ You describe the job in plain words, and the skills run it in stages. They stop 
 | `podcast-motion-caption-first` | Clean footage, large captions, one big moment. Cheapest | No | Test frames only |
 | `podcast-motion-whiteboard` | Footage beside a board that draws what the guest says | No | Test frames only |
 | `podcast-motion-morning-show` | Lower thirds and a topic strip, a format viewers know | No | Test frames only |
-| `podcast-motion-photo-card` | The speaker beside a white card: heading, rows on their words, and a full-colour picture that moves. Built on the Animatic's card engine | No | Test frames on a scripted film |
-| `podcast-motion-chalkboard` | The speaker beside a green board: chalk heading and rows, pictures turned to chalk sketches. Built on the Animatic's card engine | No | Test frames on a scripted film |
+| `podcast-motion-photo-card` | The speaker beside a white card: heading, rows on their words, and a full-colour picture that moves. Built on the Animatic's card engine | No | Rendered on a scripted film |
+| `podcast-motion-chalkboard` | The speaker beside a green board: chalk heading and rows, pictures turned to chalk sketches. Built on the Animatic's card engine | No | Rendered on a scripted film |
 
 ## Showcase
 
-One 2-minute Thai film about *Project Hail Mary*, built in the looks below from the same script, voices and cut. Click a picture to play its film (720p previews, about 5 MB each).
+One 2-minute Thai film about *Project Hail Mary*, built in all eight looks from the same script, voices and cut. Click a picture to play its film (720p previews, about 5 MB each).
 
 | | | |
 |---|---|---|
 | [![Animatic](showcases/hailmary_animatic.jpg)](showcases/hailmary_animatic.mp4)<br>**Animatic** · [mp4](showcases/hailmary_animatic.mp4) | [![Caption-First](showcases/hailmary_caption_first.jpg)](showcases/hailmary_caption_first.mp4)<br>**Caption-First** · [mp4](showcases/hailmary_caption_first.mp4) | [![Whiteboard](showcases/hailmary_whiteboard.jpg)](showcases/hailmary_whiteboard.mp4)<br>**Whiteboard** · [mp4](showcases/hailmary_whiteboard.mp4) |
 | [![Morning Show](showcases/hailmary_morning_show.jpg)](showcases/hailmary_morning_show.mp4)<br>**Morning Show** · [mp4](showcases/hailmary_morning_show.mp4) | [![Pop Studio](showcases/hailmary_pop_studio.jpg)](showcases/hailmary_pop_studio.mp4)<br>**Pop Studio** · [mp4](showcases/hailmary_pop_studio.mp4) | [![Studio Cut](showcases/hailmary_studio_cut.jpg)](showcases/hailmary_studio_cut.mp4)<br>**Studio Cut** · [mp4](showcases/hailmary_studio_cut.mp4) |
+| [![Photo Card](showcases/hailmary_photo_card.jpg)](showcases/hailmary_photo_card.mp4)<br>**Photo Card** · [mp4](showcases/hailmary_photo_card.mp4) | [![Chalkboard](showcases/hailmary_chalkboard.jpg)](showcases/hailmary_chalkboard.mp4)<br>**Chalkboard** · [mp4](showcases/hailmary_chalkboard.mp4) | |
 
 How it was made, with no recording:
 
