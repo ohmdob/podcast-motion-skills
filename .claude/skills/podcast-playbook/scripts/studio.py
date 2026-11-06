@@ -12,8 +12,8 @@ FONTS = SKILL / 'assets' / 'fonts'
 SFX_LIB = SKILL / 'assets' / 'sfx'
 MUSIC_LIB = SKILL / 'assets' / 'music'
 TEMPLATES = SKILL / 'assets' / 'templates'
-KEYS = ('ELEVENLABS-API', 'COMFY-API')
-DEFAULT_COMFY = 'https://cloud.comfy.org'    # COMFY-HOST in .env to use a ComfyUI you run yourself
+KEYS = ('ELEVENLABS_API', 'COMFY_API')
+DEFAULT_COMFY = 'https://cloud.comfy.org'    # COMFY_HOST in .env to use a ComfyUI you run yourself
 EXIT_QUOTE, EXIT_UNKNOWN = 3, 4
 
 SHOW_DEFAULTS = {'name': '', 'mark': '', 'lang': 'tha', 'speakers': 2, 'fps': 25, 'face_split_x': 1000, 'body_split_x': 800, 'people': {}, 'looks': {}}
@@ -89,7 +89,7 @@ def env_files(start=None):
 
 
 def parse_env(path):
-    """NAME=value lines. The names hold a hyphen, so a shell cannot export or source them; that is why tools read the file themselves."""
+    """NAME=value lines. The tools read the file themselves, so a key never has to be exported into the shell."""
     out = {}
     try:
         text = Path(path).read_text(encoding='utf-8-sig')
@@ -114,15 +114,20 @@ def parse_env(path):
 def secret(name, start=None):
     """The value, or None. A blank line counts as not set, so a show's own .env can leave a key to the shared file."""
     for f in env_files(start):
-        v = parse_env(f).get(name)
+        v = _lookup(parse_env(f), name)
         if v:
             return v
     return None
 
 
+def _lookup(env, name):
+    """The value under name, or under its old hyphenated spelling (COMFY-API), so a .env written before the rename keeps working."""
+    return env.get(name) or env.get(name.replace('_', '-'))
+
+
 def secret_source(name, start=None):
     for f in env_files(start):
-        if parse_env(f).get(name):
+        if _lookup(parse_env(f), name):
             return f
     return None
 
@@ -136,7 +141,7 @@ def need(name, start=None):
 
 
 def comfy_host_problem(url):
-    """Why COMFY-API must not be sent to this address, or None. The key goes in the request body, so plain http is only acceptable on a network that stays private."""
+    """Why COMFY_API must not be sent to this address, or None. The key goes in the request body, so plain http is only acceptable on a network that stays private."""
     u = urllib.parse.urlparse(url)
     if u.scheme == 'https':
         return None
@@ -148,7 +153,7 @@ def comfy_host_problem(url):
     except (OSError, ValueError):
         return f'cannot resolve {host}, so cannot tell whether it is private'
     public = sorted(str(a) for a in addresses if a.is_global)
-    return f'refusing to send COMFY-API over plain http to {host} ({public[0]}). Use https, or a private address.' if public else None
+    return f'refusing to send COMFY_API over plain http to {host} ({public[0]}). Use https, or a private address.' if public else None
 
 
 def loose_permissions(path):

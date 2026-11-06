@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ideogram 4.5 through Comfy Cloud's Partner Nodes (https://cloud.comfy.org), billed to the Comfy account behind COMFY-API, the key from platform.comfy.org.
+"""Ideogram 4.5 through Comfy Cloud's Partner Nodes (https://cloud.comfy.org), billed to the Comfy account behind COMFY_API, the key from platform.comfy.org.
 The key goes only to Comfy, as X-API-Key and as api_key_comfy_org, and is never printed. It never goes to the storage host that a finished picture is fetched from.
 
     python3 ideogram.py gen --batch shots.json                   # [{out, prompt, size?, quality?, seed?, magic?}] as ONE queued job
@@ -16,7 +16,7 @@ cannot lose what you liked. --box crops a small detail, enlarges it, edits only 
 A job can wait behind another for a long time, and it is billed whether or not anyone is still watching. So the job is written to data/comfy_pending/
 before waiting. If this stops for any reason, run the same command again: it collects the job already paid for instead of submitting a new one.
 
-Comfy Cloud by default. For a ComfyUI you run yourself: --host, or COMFY-HOST in .env. stdout ends with OK: · FAIL: · QUOTE: · UNKNOWN:
+Comfy Cloud by default. For a ComfyUI you run yourself: --host, or COMFY_HOST in .env. stdout ends with OK: · FAIL: · QUOTE: · UNKNOWN:
 """
 import argparse, http.client, json, sys, tempfile, time, urllib.error, urllib.parse, urllib.request, uuid
 from pathlib import Path
@@ -46,7 +46,7 @@ class Comfy:
 
     def headers(self, extra=None):
         h = {'User-Agent': 'podcast-playbook', **(extra or {})}
-        key = studio.secret('COMFY-API') if self.cloud else None
+        key = studio.secret('COMFY_API') if self.cloud else None
         if key:
             h['X-API-Key'] = key
         return h
@@ -110,7 +110,7 @@ class Comfy:
 
 
 def host_of(x):
-    host = x.host or studio.secret('COMFY-HOST') or studio.DEFAULT_COMFY
+    host = x.host or studio.secret('COMFY_HOST') or studio.DEFAULT_COMFY
     problem = studio.comfy_host_problem(host)
     if problem:
         sys.exit(f'FAIL: {problem}')
@@ -122,12 +122,12 @@ ASK = 'Ask the producer which alternative to use: codex_image.py takes this same
 
 def ensure_available(comfy):
     """No Ideogram means asking the producer, so don't quote a service that can't run. Free."""
-    if not studio.secret('COMFY-API'):
-        sys.exit(f'FAIL: COMFY-API is empty, so there is no Ideogram. {ASK}')
+    if not studio.secret('COMFY_API'):
+        sys.exit(f'FAIL: COMFY_API is empty, so there is no Ideogram. {ASK}')
     try:
         comfy.get('/api/queue', timeout=20)
     except urllib.error.HTTPError as e:
-        why = 'COMFY-API was refused' if e.code in (401, 403) else f'it answered HTTP {e.code}'
+        why = 'COMFY_API was refused' if e.code in (401, 403) else f'it answered HTTP {e.code}'
         sys.exit(f'FAIL: {comfy.label} at {comfy.host}: {why}. Nothing was submitted. Check the key at platform.comfy.org. If it stays this way: {ASK}')
     except NET_ERRORS as e:
         sys.exit(f'FAIL: cannot reach {comfy.label} at {comfy.host} ({type(e).__name__}). Nothing was submitted. If it stays down: {ASK}')
@@ -245,7 +245,7 @@ def settle_pending(comfy, root):
 
 
 def submit(comfy, root, graph, items):
-    key = studio.need('COMFY-API')
+    key = studio.need('COMFY_API')
     body = json.dumps({'prompt': graph, 'client_id': 'podcast-playbook', 'front': True, 'extra_data': {'api_key_comfy_org': key}}).encode()
     try:
         pid = json.loads(comfy.post('/api/prompt', body, 'application/json'))['prompt_id']

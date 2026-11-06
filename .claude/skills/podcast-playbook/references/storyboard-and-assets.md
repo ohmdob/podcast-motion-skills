@@ -45,7 +45,7 @@ Check it first with `doctor.py`. On Comfy Cloud, a refusal with HTTP 402 means o
 
 ### No Ideogram: ask
 
-If `COMFY-API` is empty or Comfy isn't answering and the storyboard wants pictures, **stop and ask the producer which alternative they want.** Offer the ones that fit, starting with what `doctor.py` found:
+If `COMFY_API` is empty or Comfy isn't answering and the storyboard wants pictures, **stop and ask the producer which alternative they want.** Offer the ones that fit, starting with what `doctor.py` found:
 
 | Alternative | How | Mind |
 |---|---|---|

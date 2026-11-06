@@ -102,20 +102,20 @@ python3 .claude/skills/podcast-playbook/scripts/doctor.py
 Put keys in `.env`, either in this folder or in any folder above it. It's ignored by git, so it never reaches the repo.
 
 ```
-COMFY-API=
-ELEVENLABS-API=
+COMFY_API=
+ELEVENLABS_API=
 ```
 
 **Either one is optional, and so is having both.**
 
 | Key | Used for | Without it |
 |---|---|---|
-| `ELEVENLABS-API` | Voice isolation, transcript, word timing, music, effects, and voices for a scripted show | Ordinary denoise, any `.srt` or `npx hyperframes transcribe`, the bundled music and effects, and your own microphone for a script |
-| `COMFY-API` | Pictures from Ideogram 4.5 on [Comfy Cloud](https://cloud.comfy.org). Get the key at [platform.comfy.org](https://platform.comfy.org/login) | The skill asks which alternative you want: Codex imagegen, your own photographs, or none |
+| `ELEVENLABS_API` | Voice isolation, transcript, word timing, music, effects, and voices for a scripted show | Ordinary denoise, any `.srt` or `npx hyperframes transcribe`, the bundled music and effects, and your own microphone for a script |
+| `COMFY_API` | Pictures from Ideogram 4.5 on [Comfy Cloud](https://cloud.comfy.org). Get the key at [platform.comfy.org](https://platform.comfy.org/login) | The skill asks which alternative you want: Codex imagegen, your own photographs, or none |
 
-To use a ComfyUI you run yourself instead of Comfy Cloud, add `COMFY-HOST=http://your-machine:8188`.
+To use a ComfyUI you run yourself instead of Comfy Cloud, add `COMFY_HOST=http://your-machine:8188`.
 
-The names hold a hyphen, so a shell can't `source` this file; the tools read it themselves. A show's folder can have its own `.env`, and a blank line there falls back to this one.
+The tools read this file themselves, so there's no need to `source` it. The old hyphenated names (`COMFY-API`, `ELEVENLABS-API`) still work. A show's folder can have its own `.env`, and a blank line there falls back to this one.
 
 **Paid calls never run by surprise.** A paid command only quotes unless given `--yes`, nothing retries by itself, and every call gets a row in the show's `data/ledger.md`.
 

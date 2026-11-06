@@ -1,6 +1,6 @@
 ---
 name: podcast-playbook
-description: Turn a raw recorded podcast or talk show, or a script with no recording at all, into a finished YouTube episode and short clips of 2 to 30 minutes - script and voices, sound clean-up, transcript, paper edit, storyboard, one-camera recut, on-screen cards, 16:9 and 9:16, subtitles, master and QC - with ElevenLabs and/or Ideogram through Comfy Cloud, whichever keys are in .env (ELEVENLABS-API, COMFY-API). Sound and transcript have free local fallbacks; with no Ideogram it asks which alternative to use, such as Codex imagegen. Use this whenever the user has a recorded conversation or interview to edit, or wants to plan, cut, clean, caption, clip, master or publish an episode, even if they name only one step - "clean the audio", "find clips in this interview", "make a Short from EP02", "generate stills for this episode", "ตัดพอดแคสต์", "ทำคลิปสั้นจากรายการ", "ตัดตอนใหม่", "ทำเสียงให้สะอาด", "ทำพอดแคสต์จากสคริปต์", "ไม่มีเทป". The look of the film comes from a podcast-motion-* skill; this skill is the method around it.
+description: Turn a raw recorded podcast or talk show, or a script with no recording at all, into a finished YouTube episode and short clips of 2 to 30 minutes - script and voices, sound clean-up, transcript, paper edit, storyboard, one-camera recut, on-screen cards, 16:9 and 9:16, subtitles, master and QC - with ElevenLabs and/or Ideogram through Comfy Cloud, whichever keys are in .env (ELEVENLABS_API, COMFY_API). Sound and transcript have free local fallbacks; with no Ideogram it asks which alternative to use, such as Codex imagegen. Use this whenever the user has a recorded conversation or interview to edit, or wants to plan, cut, clean, caption, clip, master or publish an episode, even if they name only one step - "clean the audio", "find clips in this interview", "make a Short from EP02", "generate stills for this episode", "ตัดพอดแคสต์", "ทำคลิปสั้นจากรายการ", "ตัดตอนใหม่", "ทำเสียงให้สะอาด", "ทำพอดแคสต์จากสคริปต์", "ไม่มีเทป". The look of the film comes from a podcast-motion-* skill; this skill is the method around it.
 model: claude-opus-5-5
 ---
 
@@ -28,28 +28,28 @@ python3 $S/init_show.py ~/shows/my-show --episode EP02
 Keys live in `.env`, in the show's folder or at the root of the skills repo, whichever is set. The tools read the file themselves.
 
 ```
-COMFY-API=
-ELEVENLABS-API=
+COMFY_API=
+ELEVENLABS_API=
 ```
 
 - **Either key is optional, and so is having both.** See the table below for what each one changes.
 - **Trust `doctor.py` for what is set.** The shared file can sit in any folder above the skill, and a blank `NAME=` looks set if you only list the names.
-- **Never print a value, and never `cat` or `source` the file.** The names hold a hyphen, so a shell can't export them anyway. To see what a file holds, print names only: `cut -d= -f1 .env`.
+- **Never print a value, and never `cat` or `source` the file.** The tools read it themselves, so nothing needs exporting. To see what a file holds, print names only: `cut -d= -f1 .env`.
 - **`.env` never goes in a skill folder or in git.** Packaging a skill does not exclude it.
-- `COMFY-API` is the key from platform.comfy.org, and Ideogram runs on **Comfy Cloud** (cloud.comfy.org). The optional third line, `COMFY-HOST=http://…:8188`, is for a ComfyUI you run yourself instead. A key is refused over plain http to a public address.
+- `COMFY_API` is the key from platform.comfy.org, and Ideogram runs on **Comfy Cloud** (cloud.comfy.org). The optional third line, `COMFY_HOST=http://…:8188`, is for a ComfyUI you run yourself instead. A key is refused over plain http to a public address.
 
-| Step | With `ELEVENLABS-API` | Without it |
+| Step | With `ELEVENLABS_API` | Without it |
 |---|---|---|
 | Voice clean-up | Audio Isolation, blended with the real voice | Ordinary denoise only (free). It keeps more room tone, and it was already most of the blend a producer chose by ear on a real episode |
 | Transcript | Scribe | `npx hyperframes transcribe` or any `.srt`, then `transcript.py import` (commands in sound-and-script.md) |
 | Word timing | Forced Alignment | From that transcript, coarser; check it by ear |
 | Music, effects | `el.py music`, `el.py sfx` | The skill's bundled beds and effects, or your own files |
 
-| Step | With `COMFY-API` | Without it |
+| Step | With `COMFY_API` | Without it |
 |---|---|---|
 | Pictures | Ideogram 4.5 through Comfy Cloud | **Ask the producer which alternative** (below). Caption-First, Whiteboard and Morning Show use no pictures, so they don't need the question. Animatic wants them, and letters its panels in words without them |
 
-**No Ideogram means asking, not choosing.** If the film needs pictures and `COMFY-API` is empty or Comfy isn't answering, stop and ask which way to get them, and offer: **Codex imagegen** (`codex_image.py`, when `doctor.py` finds `codex`), **their own photographs**, **another service they name**, or **no pictures**. Don't pick for them, and don't quietly build without any. A card whose picture is missing just goes without, so a skipped question wouldn't show up as an error.
+**No Ideogram means asking, not choosing.** If the film needs pictures and `COMFY_API` is empty or Comfy isn't answering, stop and ask which way to get them, and offer: **Codex imagegen** (`codex_image.py`, when `doctor.py` finds `codex`), **their own photographs**, **another service they name**, or **no pictures**. Don't pick for them, and don't quietly build without any. A card whose picture is missing just goes without, so a skipped question wouldn't show up as an error.
 
 With neither key, the whole method still runs for free. Tell the producer plainly which path this run takes, because it changes how the voice will sound.
 

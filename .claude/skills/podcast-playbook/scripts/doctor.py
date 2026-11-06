@@ -34,18 +34,18 @@ for f in found:
         print(f'  WARN {f} sits inside the skill folder, and packaging a skill includes it. Move it up to the repo root.')
 
 print('Services (free checks)')
-has_el, has_comfy = bool(studio.secret('ELEVENLABS-API', start)), False
+has_el, has_comfy = bool(studio.secret('ELEVENLABS_API', start)), False
 if has_el:
     b = el.balance(start)
     row('ElevenLabs', f'{b[0]:,} of {b[1]:,} credits left ({b[2]})' if b else el.PROBLEM)
     has_el = bool(b)
 else:
     row('ElevenLabs', 'skipped, no key')
-host = studio.secret('COMFY-HOST', start) or studio.DEFAULT_COMFY
+host = studio.secret('COMFY_HOST', start) or studio.DEFAULT_COMFY
 problem = studio.comfy_host_problem(host)
-if studio.secret('COMFY-API', start) and problem:
+if studio.secret('COMFY_API', start) and problem:
     row('Comfy', problem)
-elif studio.secret('COMFY-API', start):
+elif studio.secret('COMFY_API', start):
     comfy = ideogram.Comfy(host)
     try:
         q = json.loads(comfy.get('/api/queue', timeout=20))
@@ -83,7 +83,7 @@ else:
     row('show', f'none here. Make one: python3 {Path(__file__).parent}/init_show.py <folder> --name "Show name"')
 
 print('What each step will use')
-row('voice', 'ElevenLabs Audio Isolation, blended with the real voice' if has_el else 'ordinary denoise only (free); blends need ELEVENLABS-API')
+row('voice', 'ElevenLabs Audio Isolation, blended with the real voice' if has_el else 'ordinary denoise only (free); blends need ELEVENLABS_API')
 row('transcript', 'ElevenLabs Scribe' if has_el else 'bring one: npx hyperframes transcribe, or any .srt, then transcript.py import')
 row('word timing', 'ElevenLabs Forced Alignment' if has_el else 'from that transcript, coarser; check it by ear')
 row('music, effects', 'ElevenLabs Music and SFX, your own files, or the bundled set' if has_el else 'your own files in assets/music and assets/sfx, or the bundled set')

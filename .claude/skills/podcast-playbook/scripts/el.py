@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ElevenLabs for the podcast pipeline. Reads ELEVENLABS-API from .env and never prints it.
+"""ElevenLabs for the podcast pipeline. Reads ELEVENLABS_API from .env and never prints it.
 
     python3 el.py quota                                                free: credits used and left
     python3 el.py isolate IN.wav OUT.mp3 [--note "EP02"]               Audio Isolation, 660 credits a minute (measured)
@@ -37,7 +37,7 @@ def duration(path):
 def balance(start=None):
     """(credits left, limit, plan), or None. Free."""
     global PROBLEM
-    key = studio.secret('ELEVENLABS-API', start)
+    key = studio.secret('ELEVENLABS_API', start)
     if not key:
         return None
     PROBLEM = ''
@@ -70,7 +70,7 @@ def multipart(fields, file_field=None, file_path=None):
 
 def call(root, service, job, path, body, ctype, out, timeout=600):
     """One request, one ledger row, no retry."""
-    req = urllib.request.Request(BASE + path, data=body, method='POST', headers={'xi-api-key': studio.need('ELEVENLABS-API'), 'Content-Type': ctype})
+    req = urllib.request.Request(BASE + path, data=body, method='POST', headers={'xi-api-key': studio.need('ELEVENLABS_API'), 'Content-Type': ctype})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             data, headers = r.read(), r.headers
@@ -100,7 +100,7 @@ def peak(path):
 
 
 def fetch(path):
-    req = urllib.request.Request(BASE + path, headers={'xi-api-key': studio.need('ELEVENLABS-API')})
+    req = urllib.request.Request(BASE + path, headers={'xi-api-key': studio.need('ELEVENLABS_API')})
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
             return json.load(r)
@@ -189,7 +189,7 @@ def main(argv=None):
     x = ap.parse_args(argv)
 
     if x.cmd == 'quota':
-        studio.need('ELEVENLABS-API')
+        studio.need('ELEVENLABS_API')
         b = balance()
         if not b:
             sys.exit(f'FAIL: {PROBLEM}')
@@ -221,7 +221,7 @@ def main(argv=None):
         estimate = '6-24 credits with a set duration' if x.dur else 'about 55 credits with no set duration'
     if not x.yes:
         b = balance()
-        tail = f' · {b[0]:,} left' if b else ('' if studio.secret('ELEVENLABS-API') else ' · ELEVENLABS-API is empty')
+        tail = f' · {b[0]:,} left' if b else ('' if studio.secret('ELEVENLABS_API') else ' · ELEVENLABS_API is empty')
         print(f'QUOTE: {NAMES[x.cmd]} {estimate}{tail}. Nothing spent; add --yes once the producer has approved.')
         return studio.EXIT_QUOTE
 

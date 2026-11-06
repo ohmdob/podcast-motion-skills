@@ -112,18 +112,21 @@ def main():
     tmp = Path(tempfile.mkdtemp())
     os.environ['PODCAST_ENV'] = str(tmp / '.env')
     studio.SKILL = tmp / 'not' / 'the' / 'skill'      # a real .env above the repo must not count here: it would pass as a key the test thinks is empty, and go to the fake server
-    (tmp / '.env').write_text(f'# a comment\nexport ELEVENLABS-API="{KEY_E}"\nCOMFY-API={KEY_C}\nEMPTY=\n', encoding='utf-8')
+    (tmp / '.env').write_text(f'# a comment\nexport ELEVENLABS_API="{KEY_E}"\nCOMFY_API={KEY_C}\nEMPTY=\n', encoding='utf-8')
     (tmp / 'show.json').write_text(json.dumps({'name': 't', 'lang': 'tha'}))
     os.chdir(tmp)
     subprocess.run(['ffmpeg', '-y', '-v', 'error', '-f', 'lavfi', '-i', 'sine=frequency=300:duration=60', str(tmp / 'in.wav')], check=True)
     ledger = tmp / 'data' / 'ledger.md'
 
     # .env
-    check('.env: reads hyphenated names, export and quotes', studio.secret('ELEVENLABS-API') == KEY_E and studio.secret('COMFY-API') == KEY_C)
+    check('.env: reads names, export and quotes', studio.secret('ELEVENLABS_API') == KEY_E and studio.secret('COMFY_API') == KEY_C)
     check('.env: a blank value counts as not set', studio.secret('EMPTY') is None)
     (tmp / 'sub').mkdir()
-    (tmp / 'sub' / '.env').write_text('COMFY-API=\n')
-    check('.env: blank in the nearer file falls through to the next', studio.secret('COMFY-API', tmp / 'sub') == KEY_C)
+    (tmp / 'sub' / '.env').write_text('COMFY_API=\n')
+    check('.env: blank in the nearer file falls through to the next', studio.secret('COMFY_API', tmp / 'sub') == KEY_C)
+    (tmp / 'legacy').mkdir()
+    (tmp / 'legacy' / '.env').write_text('OLD-STYLE=legacy\n')
+    check('.env: the old hyphenated name still works', studio.secret('OLD_STYLE', tmp / 'legacy') == 'legacy')
 
     # money gate
     log.clear()
@@ -207,14 +210,14 @@ def main():
     check('ideogram gen --force: a stopped run is collected, not paid for again', code == 0 and not posts('/api/prompt'), out)
 
     # no Ideogram means asking, so nothing may quote it as if it could run
-    saved = studio.secret('COMFY-API')
-    (tmp / '.env').write_text(f'ELEVENLABS-API="{KEY_E}"\nCOMFY-API=\n', encoding='utf-8')
+    saved = studio.secret('COMFY_API')
+    (tmp / '.env').write_text(f'ELEVENLABS_API="{KEY_E}"\nCOMFY_API=\n', encoding='utf-8')
     log.clear()
     code, out = call(ideogram.main, 'gen', '--batch', str(shots), '--host', url, '--force')
     check('ideogram: an empty key says ask the producer, with no quote', code != 0 and 'Ask the producer' in out and 'QUOTE' not in out, out)
     code, out = call(ideogram.main, 'edit', 'src.png', 'x.png', 'y', '--host', url)
     check('ideogram edit: an empty key says ask the producer, with no quote', code != 0 and 'Ask the producer' in out and 'QUOTE' not in out, out)
-    (tmp / '.env').write_text(f'ELEVENLABS-API="{KEY_E}"\nCOMFY-API={saved}\n', encoding='utf-8')
+    (tmp / '.env').write_text(f'ELEVENLABS_API="{KEY_E}"\nCOMFY_API={saved}\n', encoding='utf-8')
     code, out = call(ideogram.main, 'gen', '--batch', str(shots), '--host', 'http://127.0.0.1:9', '--force')
     check('ideogram: ComfyUI down says ask the producer, with no quote', code != 0 and 'Ask the producer' in out and 'QUOTE' not in out, out)
 
