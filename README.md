@@ -15,6 +15,10 @@ You describe the job in plain words, and the skills run it in stages. They stop 
 | `podcast-motion-morning-show` | Lower thirds and a topic strip, a format viewers know | No | Test frames only |
 | `podcast-motion-photo-card` | The speaker beside a white card: heading, rows on their words, and a full-colour picture that moves. Built on the Animatic's card engine | No | Rendered on a scripted film |
 | `podcast-motion-chalkboard` | The speaker beside a green board: chalk heading and rows, pictures turned to chalk sketches. Built on the Animatic's card engine | No | Rendered on a scripted film |
+| `podcast-motion-comic` | Speakers inked onto a halftone page that changes colour with each card, comic panels with speech bubbles, a starburst on every number | Yes | Test frames on a scripted film |
+| `podcast-motion-evidence` | A cork wall: cards pinned as polaroids with sticky notes, then strung along the ledge, so the board fills up as the case is made | Yes | Test frames on a scripted film |
+| `podcast-motion-bento` | The footage becomes a tile, and every card reflows the grid with tiles for the heading, the picture and each row | No | Test frames on a scripted film |
+| `podcast-motion-chat` | The talk as a messaging app: typing, messages from whoever said them, image messages and stickers, in a feed that keeps the chapter | Yes | Test frames on a scripted film |
 
 ## Showcase
 
@@ -57,6 +61,10 @@ There is no default. The skill asks each time, and each show's `STYLES.md` recor
 | A story, or a topic you can draw: film, science, history | Animatic, with cards and a theme from the story |
 | Someone teaching or explaining | Whiteboard, or Chalkboard for a classroom feel |
 | An explainer where the object itself matters: a product, a place, a dish | Photo Card |
+| Loud, playful, made to stop the scroll | Comic, or Pop Studio |
+| A mystery or a case argued step by step | Evidence Board |
+| Calm, modern, product or keynote talk | Bento Grid |
+| Social and conversational, for a phone audience | Chat Feed |
 | News, or a familiar broadcast feel | Morning Show |
 | A Short that has to work with the sound off, or the smallest budget | Caption-First |
 
