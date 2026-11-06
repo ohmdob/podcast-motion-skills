@@ -85,16 +85,22 @@ def pinned(st, c, i, pfx, o, slot):
         times = st.row_times(c, o)
         n = len(rows)
         nw = min(600 if n == 1 else 400, (w - 30 * (n - 1)) // n)     # one long row of Thai has no space to break at, so give it room
-        nx0 = x0 + (w - (nw * n + 30 * (n - 1))) // 2
+        stack = n > 1 and not cs.fits(rows, nw - 44, 32, FONT)     # a run too wide for a note side by side: stack the notes instead
+        if stack:
+            nw = min(620, w - 40)
+        nx0 = x0 + (w - (nw if stack else nw * n + 30 * (n - 1))) // 2
         ny = py + PH + 30
         for r, row in enumerate(rows):
-            rs, rl, rlh = cs.lines(row, nw - 44, 52, 32, 3, FONT)
-            nh = max(170, rlh * len(rl) + 50)
-            nr = (2.5, -2, 3, -3)[(i + r) % 4]
+            rs, rl, rlh = cs.lines(row, nw - 44, 52 if not stack else 44, 30, 3 if not stack else 1, FONT)
+            nh = max(170, rlh * len(rl) + 50) if not stack else rlh * len(rl) + 34
+            nr = (2.5, -2, 3, -3)[(i + r) % 4] if not stack else (1.2, -1, 1.5)[r % 3]
             col = p['note'] if (i + r) % 3 else p['note2']
             nid = f'{pfx}{i}n{r}'
-            h_ += f'<div id="{nid}" class="clip note" data-start="{times[r]}" data-duration="{round(b - times[r], 3)}" data-track-index="5" style="left:{nx0 + r * (nw + 30)}px;top:{ny}px;width:{nw}px;height:{nh}px;background:{col};transform:rotate({nr}deg)"></div>'
-            h_ += cs.block(f'{nid}x', times[r], b, rl, nx0 + r * (nw + 30) + 20, ny + 22, rs, p['ink'], track=6, extra=f'z-index:7;transform:rotate({nr}deg);transform-origin:0 0;')
+            nx = nx0 + (0 if stack else r * (nw + 30)) + (r * 26 if stack else 0)
+            h_ += f'<div id="{nid}" class="clip note" data-start="{times[r]}" data-duration="{round(b - times[r], 3)}" data-track-index="5" style="left:{nx}px;top:{ny}px;width:{nw}px;height:{nh}px;background:{col};transform:rotate({nr}deg)"></div>'
+            h_ += cs.block(f'{nid}x', times[r], b, rl, nx + 20, ny + (22 if not stack else 16), rs, p['ink'], track=6, extra=f'z-index:7;transform:rotate({nr}deg);transform-origin:0 0;')
+            if stack:
+                ny += nh + 14
             js += (f'tl.fromTo("#{nid}",{{scale:1.5,opacity:0}},{{scale:1,opacity:1,duration:.16,ease:"power4.in"}},{times[r]});'
                    f'tl.fromTo("#{nid}x",{{scale:1.5,opacity:0}},{{scale:1,opacity:1,duration:.16,ease:"power4.in"}},{times[r]});bye("#{nid}",{b});bye("#{nid}x",{b});')
     # the polaroid flies to its slot on the ledge

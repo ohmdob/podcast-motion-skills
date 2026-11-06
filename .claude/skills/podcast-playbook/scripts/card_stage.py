@@ -110,6 +110,11 @@ def lines(text, width, base, minimum, max_lines, font):
     return size, ls, int(size * 1.32)
 
 
+def fits(rows, width, size, font):
+    """Whether every run between spaces fits the width at this size. Thai runs whole phrases together, and a run that is too wide can't break: it overflows its box."""
+    return all(kit.measure(w, size, font) <= width for r in rows for w in r.split(' '))
+
+
 def block(id_, a, b, ls, x, y, size, ink, track=4, extra='', cls='ty'):
     """Several pre-broken lines as one element, so they move together."""
     body = '<br>'.join(kit.e(l) for l in ls)

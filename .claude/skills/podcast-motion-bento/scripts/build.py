@@ -55,8 +55,11 @@ def tiles(st, c, i, pfx, o=None):
     big = k in ('stat', 'verdict')
     bg, ink = {'stat': (p['accent'], '#FFFFFF'), 'verdict': (p['accent'], '#FFFFFF'), 'q': (p['dark'], '#FFFFFF'), 'term': (p['blue'], '#FFFFFF')}.get(k, (p['tile'], p['ink']))
     ts, tl_, tlh = cs.lines(c['title'], W - 90, TITLE.get(k, 70), 44, 3, FONT)
-    rl = [cs.lines(r, (W - G * (len(rows) - 1)) // max(len(rows), 1) - 60, 54, 30, 3, FONT) for r in rows]
-    row_h = (max(lh * len(ls) for _, ls, lh in rl) + 100) if rows else 0
+    side_w = (W - G * (len(rows) - 1)) // max(len(rows), 1) - 60
+    stack = len(rows) > 1 and not cs.fits(rows, side_w, 30, FONT)     # a run too wide for a tile side by side: stack the row tiles instead
+    rl = [cs.lines(r, (W - 160) if stack else side_w, 54 if not stack else 46, 30, 3 if not stack else 1, FONT) for r in rows]
+    one_h = [lh * len(ls) + (100 if not stack else 44) for _, ls, lh in rl]
+    row_h = (sum(one_h) + G * (len(rows) - 1) if stack else max(one_h)) if rows else 0
     title_h = tlh * len(tl_) + 80
     mid = bottom - top - title_h - (row_h + G if rows else 0) - G
     if not src or mid < 240:
@@ -83,11 +86,17 @@ def tiles(st, c, i, pfx, o=None):
     if rows:
         times = st.row_times(c, o)
         n = len(rows)
-        rw = (W - G * (n - 1)) // n
+        rw = W if stack else (W - G * (n - 1)) // n
+        ry = bottom - row_h
         for r, (rs, ls, lh) in enumerate(rl):
             col = p['soft'] if r % 2 == 0 else p['tile']
-            inner = f'<div class="num ty" style="color:{p["blue"]}">{r + 1:02d}</div>' + cs.block(f'{pfx}{i}r{r}', times[r], b, ls, 30, 70, rs, p['ink'], track=5)
-            tile(f'{pfx}{i}R{r}', x0 + r * (rw + G), bottom - row_h, rw, row_h, col, inner, times[r])
+            if stack:
+                inner = f'<div class="num ty" style="color:{p["blue"]};top:{(one_h[r] - 34) // 2}px">{r + 1:02d}</div>' + cs.block(f'{pfx}{i}r{r}', times[r], b, ls, 100, 22, rs, p['ink'], track=5)
+                tile(f'{pfx}{i}R{r}', x0, ry, rw, one_h[r], col, inner, times[r])
+                ry += one_h[r] + G
+            else:
+                inner = f'<div class="num ty" style="color:{p["blue"]}">{r + 1:02d}</div>' + cs.block(f'{pfx}{i}r{r}', times[r], b, ls, 30, 70, rs, p['ink'], track=5)
+                tile(f'{pfx}{i}R{r}', x0 + r * (rw + G), ry, rw, row_h, col, inner, times[r])
     return h_, js
 
 
