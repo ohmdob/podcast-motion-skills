@@ -6,7 +6,7 @@ model: claude-opus-5-5
 
 # Podcast Motion: Chat Feed
 
-**Status: test frames on one scripted film, not yet approved by a producer.** It was built on the Hail Mary showcase (2 minutes, two drawn hosts, Thai, 16:9). It hasn't been run on real footage or approved, so show test frames and get a decision before any long render, then record the result in the show's `STYLES.md`. Read `podcast-playbook` first: it holds the sound, the cut, the gates and the master.
+**Status: one scripted film rendered, not yet approved by a producer.** The Hail Mary showcase (2 minutes, two drawn hosts, Thai, 16:9) was built and rendered in it, and passed the master's QC. It hasn't been run on real footage or approved, so show test frames and get a decision before any long render, then record the result in the show's `STYLES.md`. Read `podcast-playbook` first: it holds the sound, the cut, the gates and the master.
 
 - **Idea:** the talk becomes a chat. A phone on the free side shows "typing…", then the card's heading as a message, its picture as an image message and its rows as replies; a stat or a verdict arrives as a big sticker. The feed keeps the whole chapter and scrolls up as it grows, and the phone slides across when the other host takes over. The ground is a soft gradient that drifts through the film.
 - **Best for:** conversational topics, social clips, and audiences who live in messaging apps.
