@@ -10,9 +10,9 @@ You describe the job in plain words, and the skills run it in stages. They stop 
 | `podcast-motion-studio-cut` | Real footage with typographic label cards. Quiet and trustworthy | No | Built on a real episode |
 | `podcast-motion-pop-studio` | Speakers cut out on flat colour, a painted TV set. Lively | Yes | Built on a real episode |
 | `podcast-motion-animatic` | Storyboard panels in stepped motion, with optional cards beside the speaker, pictures that move with the story and a themed ground. For footage, audio-only shows or scripted shows with drawn hosts | No | Built on a scripted film; test frames on footage |
-| `podcast-motion-caption-first` | Clean footage, large captions, one big moment. Cheapest | No | Test frames only |
-| `podcast-motion-whiteboard` | Footage beside a board that draws what the guest says | No | Test frames only |
-| `podcast-motion-morning-show` | Lower thirds and a topic strip, a format viewers know | No | Test frames only |
+| `podcast-motion-caption-first` | Clean footage, large captions, one big moment. Cheapest | No | Rendered on a scripted film; test frames on footage |
+| `podcast-motion-whiteboard` | Footage beside a board that draws what the guest says | No | Rendered on a scripted film; test frames on footage |
+| `podcast-motion-morning-show` | Lower thirds and a topic strip, a format viewers know | No | Rendered on a scripted film; test frames on footage |
 | `podcast-motion-photo-card` | The speaker beside a white card: heading, rows on their words, and a full-colour picture that moves. Built on the Animatic's card engine | No | Rendered on a scripted film |
 | `podcast-motion-chalkboard` | The speaker beside a green board: chalk heading and rows, pictures turned to chalk sketches. Built on the Animatic's card engine | No | Rendered on a scripted film |
 | `podcast-motion-comic` | Speakers inked onto a halftone page that changes colour with each card, comic panels with speech bubbles, a starburst on every number | Yes | Rendered on a scripted film |
@@ -37,9 +37,9 @@ How it was made, with no recording:
 - **Hosts:** Frozen and Ruby, cast from a written description with Ideogram 4.5 on Comfy Cloud, two options each, then a blink frame by Precise Edit. Mouths are painted in code. About 109 Comfy credits.
 - **Voices:** ElevenLabs `eleven_v4`, WWO ATSAWIN and WWO Mali, chosen from the free previews. 588 credits for 1,335 characters. The voices are synthetic.
 - **Pictures:** the sun, Rocky, the ship and the nebula are drawn in code by `draw_art.py`. Four object stills came from Ideogram, about 72 Comfy credits.
-- **Cut and master:** 1:58.8, each film −14 LUFS, true peak ≤ −1 dBTP, 7/7 QC checks.
+- **Cut and master:** 1:58.8, each film −14 LUFS (Pop Studio −14.2, to keep its peaks under the limit), true peak ≤ −1 dBTP, 7/7 QC checks.
 
-Each look was rendered as its build made it, with nothing retouched afterwards. One input differs from a recorded show: Pop Studio's cutout comes from the drawn hosts' own alpha, because the person matte, trained on real people, lost Ruby's head. Not yet fixed: Caption-First's subtitles are a draft no one has proofread, Pop Studio crops Ruby's hair at the frame edge in her close-ups, and Studio Cut breaks one Thai heading mid-word. Rocky is drawn from the novel's description, not the film's design.
+Each look was rendered as its build made it, with nothing retouched afterwards. One input differs from a recorded show: the cutout that Pop Studio, Comic, Evidence Board and Chat Feed stand the hosts on comes from the drawn hosts' own alpha, because the person matte, trained on real people, lost Ruby's head. Not yet fixed: Caption-First's subtitles are a draft no one has proofread, Pop Studio crops Ruby's hair at the frame edge in her close-ups, and Studio Cut breaks one Thai heading mid-word. Rocky is drawn from the novel's description, not the film's design.
 
 ## What you can bring
 
@@ -47,8 +47,8 @@ Each look was rendered as its build made it, with nothing retouched afterwards. 
 |---|---|---|
 | Two people on one camera | The full pipeline: one camera is recut as if it were two | Any |
 | A finished episode, and you want clips | Finds the moments, then reuses the episode's sound and transcript, so a clip costs almost nothing new | Any. Caption-First is the cheapest |
-| Audio only, no camera | The same pipeline over a plain video | Animatic |
-| A topic or a script, and no recording | Writes or takes the script, casts voices from free previews, and voices it. Drawn hosts are optional | Animatic |
+| Audio only, no camera | The same pipeline over a plain video | Animatic, Photo Card, Chalkboard |
+| A topic or a script, and no recording | Writes or takes the script, casts voices from free previews, and voices it. Drawn hosts are optional | Any: the showcase is all twelve on one scripted film |
 | One person, or three or more | **Not proven.** The shot planner assumes two people, one each side of the frame | Try test frames first |
 
 ## Choosing a look
@@ -58,11 +58,10 @@ There is no default. The skill asks each time, and each show's `STYLES.md` recor
 | If the show is | Try |
 |---|---|
 | Expert, serious, trust is the point | Studio Cut |
-| Friendly, made to stop the scroll | Pop Studio |
 | A story, or a topic you can draw: film, science, history | Animatic, with cards and a theme from the story |
 | Someone teaching or explaining | Whiteboard, or Chalkboard for a classroom feel |
 | An explainer where the object itself matters: a product, a place, a dish | Photo Card |
-| Loud, playful, made to stop the scroll | Comic, or Pop Studio |
+| Friendly or loud, made to stop the scroll | Pop Studio, or Comic for something louder |
 | A mystery or a case argued step by step | Evidence Board |
 | Calm, modern, product or keynote talk | Bento Grid |
 | Social and conversational, for a phone audience | Chat Feed |
@@ -80,7 +79,7 @@ The same pipeline covers the whole range, and what changes is the structure arou
 | **15 to 30 min** | An episode | The same, with 6 or more chapters. Expect the cut to lose a quarter: 30 minutes became 22 on the real one | About one every 17 s | About 20,400 for 30 minutes | About 400 for 22 pictures | Yes: one episode, recorded |
 
 - **With neither key, the method still runs for free,** on ordinary denoise, a local transcript and the bundled music. Scripted voices are the one thing that needs ElevenLabs or your own microphone.
-- **Rendering is free but not instant.** A 23-minute Studio Cut took about 11 minutes and a 2-minute Animatic with moving pictures about 5, so a look with many layers costs more per second. Measure on a short stretch before a long render.
+- **Rendering is free but not instant.** On a Mac, a 23-minute Studio Cut took about 11 minutes and a 2-minute Animatic with moving pictures about 5. On a 4-core Linux cloud machine with no GPU, each 2-minute showcase look took 24 to 44 minutes, Comic's ink outline the slowest. A look with many layers costs more per second, so measure on a short stretch before a long render.
 - **A scripted show past about 5 minutes hasn't been tried.** Drawn hosts with flapping mouths may tire over a long film, so test a stretch first.
 
 ## How a run goes
@@ -103,7 +102,7 @@ cd podcast-motion-skills
 
 `install.sh` links the skills into `$CLAUDE_CONFIG_DIR/skills`, or `~/.claude/skills` if that isn't set, so every Claude Code session can use them and `git pull` updates them. It also makes a private `.env` from `.env.example`. `./install.sh --uninstall` removes only those links.
 
-**Don't move the skills apart.** The looks use the scripts in `podcast-playbook`, so keep the folders side by side.
+**Don't move the skills apart.** The looks use the scripts in `podcast-playbook`, and several build on the Animatic's engine in `podcast-motion-animatic`, so keep the folders side by side.
 
 ### Use Claude Opus 5.5
 
@@ -123,9 +122,9 @@ python3 .claude/skills/podcast-playbook/scripts/doctor.py
 
 `doctor.py` says what's installed, which keys are set, and what each step will use. It's free and never prints a key.
 
-- **Required:** `ffmpeg`, Python 3 with `numpy` and `pillow`, Node.js. [HyperFrames](https://hyperframes.heygen.com) runs through `npx`, and `npx hyperframes skills` installs its own skills, which these point to for anything hand-built.
-- **macOS, with the Xcode command line tools.** Every look on real footage needs face tracking from Apple Vision, compiled with `swiftc`, so those don't build on other systems.
-- **For Pop Studio:** `uv`, which runs the person matte.
+- **Required:** `ffmpeg` 7 or later (the cut reads its filters from a file, which 6.x can't), Python 3 with `numpy` and `pillow`, Node.js. [HyperFrames](https://hyperframes.heygen.com) runs through `npx`, and `npx hyperframes skills` installs its own skills, which these point to for anything hand-built.
+- **macOS, with the Xcode command line tools, for real footage.** Face tracking comes from Apple Vision, compiled with `swiftc`, and so do Thai word breaks in subtitles. A scripted show makes its own face tracking, so it builds anywhere: the showcase was built on Linux.
+- **For Pop Studio, Comic, Evidence Board and Chat Feed:** `uv`, which runs the person matte. These four stand the speakers on a ground of their own.
 - **For a scripted show:** `scipy` as well, which cuts drawn hosts out of their backgrounds.
 - **Optional:** the [Codex CLI](https://github.com/openai/codex), for pictures when Ideogram isn't available.
 
@@ -213,13 +212,14 @@ Each skill's `SKILL.md` and `references/` hold the detail, including the mistake
 Two real films have been through this, and they sit at the two ends of the range:
 
 - **A 30-minute recorded episode:** one camera, two people, in Thai, 1920×1080, 25 fps, with the host on the left and the guest on the right. Studio Cut and Pop Studio were built on it.
-- **A 2-minute scripted film:** no recording, two drawn hosts, ElevenLabs voices, in Thai, 16:9. Animatic, with cards and a blueprint theme, approved by its producer.
+- **A 2-minute scripted film:** no recording, two drawn hosts, ElevenLabs voices, in Thai, 16:9. Animatic, with cards and a blueprint theme, approved by its producer. All twelve looks were later rendered on the same film for the showcase above.
 
 And what isn't:
 
 - **Lengths between those two have not been run.** The 5 to 15 minute row above is scaled, not measured.
 - **Other languages, frame rates, solo shows and three-person shows are not proven.** The cut and sound stages should carry over; the shot planner assumes two people on one camera, one each side.
 - **Caption-First, Whiteboard and Morning Show are candidates.** So is Animatic on real footage. They have been checked on real frames, and rendered at full length only on the scripted showcase above. No producer has approved them.
+- **Photo Card, Chalkboard, Comic, Evidence Board, Bento Grid and Chat Feed are newer still.** Each has been rendered once, on the scripted showcase. None has been run on real footage or approved by a producer.
 - **Publishing is a plan.** It hasn't been run.
 - **A person still has to listen.** Tools measure the sound, and they can't hear whether a voice is right. A scratch voice that passed every check was rejected in seconds.
 
