@@ -42,6 +42,12 @@ How it was made, with no recording:
 - **Pictures:** the sun, Rocky, the ship and the nebula are drawn in code by `draw_art.py`. Four object stills came from Ideogram, about 72 Comfy credits.
 - **Cut and master:** 1:58.8, each film −14 LUFS (Pop Studio −14.2, to keep its peaks under the limit), true peak ≤ −1 dBTP, 7/7 QC checks.
 
+### Gameplay Hype
+
+| | |
+|---|---|
+| [![Gameplay Hype](showcases/fantasydiary_gameplay_hype.jpg)](showcases/fantasydiary_gameplay_hype.mp4)<br>**Gameplay Hype** · [mp4](showcases/fantasydiary_gameplay_hype.mp4) | 30 s, 9:16, from two screen recordings of the game *Fantasy Diary*: a village, skeleton waves with a 66-hit SSS combo, then a boss fight to BOSS DEFEATED and a logo end card. No voice. The music is the producer's own, and every number on screen is the game's own. Its plan is `gameplay-hype/references/example-plan.json`. 720p preview, about 5 MB. Rendered by `hype.py` with nothing retouched. Not yet approved by its producer. |
+
 Each look was rendered as its build made it, with nothing retouched afterwards. One input differs from a recorded show: the cutout that Pop Studio, Comic, Evidence Board and Chat Feed stand the hosts on comes from the drawn hosts' own alpha, because the person matte, trained on real people, lost Ruby's head. Not yet fixed: Caption-First's subtitles are a draft no one has proofread, Pop Studio crops Ruby's hair at the frame edge in her close-ups, and Studio Cut breaks one Thai heading mid-word. Rocky is drawn from the novel's description, not the film's design.
 
 ## Gameplay Hype
