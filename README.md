@@ -2,6 +2,8 @@
 
 A framework of Claude Code skills for making a podcast or talk-show film of about 2 to 30 minutes. Bring a recording, audio alone, or just a topic and a script. It handles the voices or the sound clean-up, the transcript, the edit, the on-screen graphics, subtitles and mastering, and you choose how the film looks.
 
+It also makes one kind of film that isn't a talk: **Gameplay Hype**, a vertical short for TikTok, Reels or Shorts cut from game screen recordings ([below](#gameplay-hype)).
+
 You describe the job in plain words, and the skills run it in stages. They stop for the decisions that are yours: which moments, which voice by ear, which look, and the final preview. Nothing that costs money runs until you've seen the price.
 
 | Skill | What it does | Needs a cutout | Status |
@@ -19,7 +21,7 @@ You describe the job in plain words, and the skills run it in stages. They stop 
 | `podcast-motion-evidence` | A cork wall: cards pinned as polaroids with sticky notes, then strung along the ledge, so the board fills up as the case is made | Yes | Rendered on a scripted film |
 | `podcast-motion-bento` | The footage becomes a tile, and every card reflows the grid with tiles for the heading, the picture and each row | No | Rendered on a scripted film |
 | `podcast-motion-chat` | The talk as a messaging app: typing, messages from whoever said them, image messages and stickers, in a feed that keeps the chapter | Yes | Rendered on a scripted film |
-| `gameplay-hype` | Not a talk show: a 9:16 short cut from game recordings on the music's beat, with punch-ins, flashes and big Thai kinetic words, and a logo end card. No voice. Stands alone, without `podcast-playbook` | No | Rendered on real gameplay (30 s, two recordings) |
+| `gameplay-hype` | Not a talk show: a 9:16 short cut from game recordings on the music's beat, with punch-ins, flashes and big Thai kinetic words, and a logo end card. No voice. Uses only `podcast-playbook`'s bundled font and effects | No | Rendered once on real gameplay (30 s, two recordings); not yet approved |
 
 ## Showcase
 
@@ -42,6 +44,29 @@ How it was made, with no recording:
 
 Each look was rendered as its build made it, with nothing retouched afterwards. One input differs from a recorded show: the cutout that Pop Studio, Comic, Evidence Board and Chat Feed stand the hosts on comes from the drawn hosts' own alpha, because the person matte, trained on real people, lost Ruby's head. Not yet fixed: Caption-First's subtitles are a draft no one has proofread, Pop Studio crops Ruby's hair at the frame edge in her close-ups, and Studio Cut breaks one Thai heading mid-word. Rocky is drawn from the novel's description, not the film's design.
 
+## Gameplay Hype
+
+A separate look for game footage, not talk. Give it one or more screen recordings and a music track. It cuts a 15 to 60 s vertical short:
+
+- **Crops:** 9:16 crops that follow the hero, or the whole frame over its own blur when the moment is wider than the crop.
+- **Cuts:** cuts on the music's beat, starting from the track's loudest stretch.
+- **Hits:** punch-ins, shakes and white or red flashes on each hit.
+- **Words:** big Thai kinetic words that only repeat what the game shows: damage numbers, combo counts, ranks, BOSS, the skill's name.
+- **End card:** the logo, a line and a URL.
+
+The whole film is one `plan.json`, and `hype.py` does the rest:
+
+```bash
+H=.claude/skills/gameplay-hype/scripts/hype.py
+python3 $H scout rec.mov --every 0.5          # a contact sheet to pick the moments from
+python3 $H beat bgm.mp3 --want 30             # tempo, and where to start the music
+python3 $H cut CLIP && python3 $H frames CLIP # shots at 1080x1920, then a sheet to check every crop
+python3 $H compose CLIP                       # the HyperFrames composition, for Studio or snapshots
+python3 $H master CLIP --out film.mp4         # render, -14 LUFS, black-frame check
+```
+
+`references/plan.md` describes every field, and `references/example-plan.json` is the first film's real plan. It costs nothing: there is no voice and there are no generated pictures, and the font and effects come from `podcast-playbook/assets`.
+
 ## What you can bring
 
 | You have | What happens | Looks that fit |
@@ -51,6 +76,7 @@ Each look was rendered as its build made it, with nothing retouched afterwards. 
 | Audio only, no camera | The same pipeline over a plain video | Animatic, Photo Card, Chalkboard |
 | A topic or a script, and no recording | Writes or takes the script, casts voices from free previews, and voices it. Drawn hosts are optional | Any: the showcase is all twelve on one scripted film |
 | One person, or three or more | **Not proven.** The shot planner assumes two people, one each side of the frame | Try test frames first |
+| Game screen recordings, no talk | A 15 to 60 s vertical short: shots on the music's beat, words from what's on screen, a logo end card. No voice, no spend | Gameplay Hype |
 
 ## Choosing a look
 
@@ -68,6 +94,7 @@ There is no default. The skill asks each time, and each show's `STYLES.md` recor
 | Social and conversational, for a phone audience | Chat Feed |
 | News, or a familiar broadcast feel | Morning Show |
 | A Short that has to work with the sound off, or the smallest budget | Caption-First |
+| Not a talk: a game's trailer, boss fight or combo reel | Gameplay Hype |
 
 ## Choosing a length
 
@@ -160,6 +187,7 @@ Clean the audio on this recording. Let me hear the options before you mix anythi
 Build this episode in the whiteboard look and show me test frames first.
 I have no recording. Write a 2-minute Thai talk about this film for my two characters, and use the animatic look.
 Keep the speaker on screen, with an image card and text beside them, and make the pictures move with the story.
+Merge ep2.mov and ep3.mov into a 30-second 9:16 gameplay hype clip, no voice, using my bgm.mp3.
 ```
 
 You can also call a skill directly with `/podcast-playbook` or `/podcast-motion-whiteboard`.
@@ -221,6 +249,7 @@ And what isn't:
 - **Other languages, frame rates, solo shows and three-person shows are not proven.** The cut and sound stages should carry over; the shot planner assumes two people on one camera, one each side.
 - **Caption-First, Whiteboard and Morning Show are candidates.** So is Animatic on real footage. They have been checked on real frames, and rendered at full length only on the scripted showcase above. No producer has approved them.
 - **Photo Card, Chalkboard, Comic, Evidence Board, Bento Grid and Chat Feed are newer still.** Each has been rendered once, on the scripted showcase. None has been run on real footage or approved by a producer.
+- **Gameplay Hype has made one film:** 30 s from two Fantasy Diary recordings, with no voice. Its plan rebuilds the same film, but no producer has approved the look yet.
 - **Publishing is a plan.** It hasn't been run.
 - **A person still has to listen.** Tools measure the sound, and they can't hear whether a voice is right. A scratch voice that passed every check was rejected in seconds.
 
