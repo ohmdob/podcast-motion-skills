@@ -1,0 +1,30 @@
+@font-face { font-family: "Thai"; src: url("assets/fonts/thai.ttf"); font-weight: 600; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: {bg}; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: {bg}; font-family: "Thai", sans-serif; }
+#cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 900px; }
+#cam video { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+#shade { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 2; pointer-events: none;
+  background: linear-gradient(180deg, rgba(10,6,4,.55) 0px, rgba(10,6,4,0) 640px, rgba(10,6,4,0) 1500px, rgba(10,6,4,.35) 1920px); }
+#endveil { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 2; background: rgba(22,12,10,.55); opacity: 0; }
+#flash { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 20; background: #FFF8E6; opacity: 0; pointer-events: none; }
+#redflash { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 20; background: {red}; opacity: 0; mix-blend-mode: screen; pointer-events: none; }
+.txt { position: absolute; z-index: 10; text-align: center; }
+.in { display: inline-block; transform-origin: 50% 50%; }
+.big, .cta, .small, .stamp, .boss, .num, .rank, .sub { white-space: nowrap; paint-order: stroke fill; -webkit-text-stroke: 16px {ink}; color: #FFFFFF; }
+.big { font-size: 150px; line-height: 1.12; text-shadow: 0 12px 0 rgba(26,18,16,.55); }
+.cta { font-size: 90px; line-height: 1.2; text-shadow: 0 10px 0 rgba(26,18,16,.55); }
+.small { font-size: 72px; line-height: 1.2; -webkit-text-stroke: 12px {ink}; }
+.gold { color: {gold}; }
+.stamp { font-size: 120px; line-height: 1.1; padding: 0 30px; text-shadow: 0 10px 0 rgba(26,18,16,.55); }
+.tilt-l { transform: rotate(-7deg); }
+.tilt-r { transform: rotate(6deg); }
+.num { font-family: "Archivo Black", sans-serif; font-size: 200px; line-height: 1; -webkit-text-stroke: 18px {ink}; text-shadow: 0 14px 0 rgba(26,18,16,.55); letter-spacing: -4px; }
+.sub { font-family: "Archivo Black", sans-serif; font-size: 58px; line-height: 1.2; letter-spacing: 6px; -webkit-text-stroke: 10px {ink}; }
+.rank { font-family: "Archivo Black", sans-serif; font-size: 260px; line-height: 1; letter-spacing: -6px; color: {gold}; -webkit-text-stroke: 18px {ink};
+  text-shadow: 0 0 0 {ink}, 10px 14px 0 {red}; }
+.rank.sm { font-size: 210px; }
+.boss { font-family: "Archivo Black", sans-serif; font-size: 280px; line-height: 1; letter-spacing: 4px; color: {red}; -webkit-text-stroke: 20px {ink}; text-shadow: 0 16px 0 rgba(26,18,16,.6); }
+.chip { display: inline-block; font-family: "Archivo Black", sans-serif; font-size: 40px; letter-spacing: 8px; color: {ink}; background: {gold}; padding: 8px 26px 6px; border-radius: 10px; }
+#logo { width: 960px; height: auto; display: block; }
+.url { display: inline-block; font-family: "Thai", sans-serif; font-size: 44px; color: {ink}; background: {gold}; padding: 12px 34px 14px; border-radius: 48px; box-shadow: 0 12px 0 rgba(26,18,16,.6); white-space: nowrap; }

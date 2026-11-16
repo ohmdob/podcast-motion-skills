@@ -19,6 +19,7 @@ You describe the job in plain words, and the skills run it in stages. They stop 
 | `podcast-motion-evidence` | A cork wall: cards pinned as polaroids with sticky notes, then strung along the ledge, so the board fills up as the case is made | Yes | Rendered on a scripted film |
 | `podcast-motion-bento` | The footage becomes a tile, and every card reflows the grid with tiles for the heading, the picture and each row | No | Rendered on a scripted film |
 | `podcast-motion-chat` | The talk as a messaging app: typing, messages from whoever said them, image messages and stickers, in a feed that keeps the chapter | Yes | Rendered on a scripted film |
+| `gameplay-hype` | Not a talk show: a 9:16 short cut from game recordings on the music's beat, with punch-ins, flashes and big Thai kinetic words, and a logo end card. No voice. Stands alone, without `podcast-playbook` | No | Rendered on real gameplay (30 s, two recordings) |
 
 ## Showcase
 
