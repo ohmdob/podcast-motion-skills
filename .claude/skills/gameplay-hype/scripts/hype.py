@@ -34,10 +34,13 @@ def load(clip):
     plan = json.load(open(os.path.join(clip, "plan.json")))
     rel = lambda p: p if os.path.isabs(p) else os.path.normpath(os.path.join(clip, p))
     plan["sources"] = {k: rel(v) for k, v in plan["sources"].items()}
-    for k in ("logo", "font"):
-        if plan.get(k): plan[k] = rel(plan[k])
+    if plan.get("logo"): plan["logo"] = rel(plan["logo"])
     plan["music"]["src"] = rel(plan["music"]["src"])
-    if plan.get("sfx"): plan["sfx_dir"] = rel(plan["sfx_dir"])
+    # defaults: the font and effects bundled with podcast-playbook, which sits beside this skill
+    shared = os.path.join(os.path.dirname(SKILL), "podcast-playbook", "assets")
+    plan.setdefault("font", os.path.join(shared, "fonts", "Mitr-SemiBold.ttf"))
+    plan.setdefault("sfx_dir", os.path.join(shared, "sfx"))
+    plan["font"] = rel(plan["font"]); plan["sfx_dir"] = rel(plan["sfx_dir"])
     plan.setdefault("fps", 30); plan.setdefault("game_volume", 2.2)
     return clip, plan
 
@@ -166,7 +169,7 @@ def cmd_compose(a):
     # assets the page needs
     for sub in ("fonts", "sfx", "stills"): os.makedirs(os.path.join(A, sub), exist_ok=True)
     font = plan.get("font")
-    if not font or not os.path.exists(font): sys.exit("plan.font: a .ttf for the Thai words (Mitr SemiBold from Google Fonts works)")
+    if not os.path.exists(font): sys.exit(f"plan.font not found: {font}")
     shutil.copy(font, os.path.join(A, "fonts", "thai.ttf"))
     shutil.copy(plan["music"]["src"], os.path.join(A, "music" + os.path.splitext(plan["music"]["src"])[1]))
     music_rel = "assets/music" + os.path.splitext(plan["music"]["src"])[1]

@@ -10,9 +10,9 @@ One file describes the whole film. Relative paths are relative to the clip's fol
 | `sources` | `{"E2": "path/to/rec.mov"}`. Use the full-res originals: a 9:16 crop of a 720p copy is soft |
 | `music` | `{"src", "start", "volume": 0.8, "fade_out": 1.6}`. `start` is the offset into the track, on a beat |
 | `game_volume` | Gain on the recordings' own sound (2.2 lifts quiet game audio under the music) |
-| `font` | A Thai `.ttf` for the words (copied in as `assets/fonts/thai.ttf`) |
+| `font` | A Thai `.ttf` for the words. Default: Mitr SemiBold from `podcast-playbook/assets/fonts` |
 | `logo` | The end card's logo. A logo on black works: it is screen-blended |
-| `sfx_dir` | A folder of `<name>.mp3` effects that `sfx` names |
+| `sfx_dir` | A folder of `<name>.mp3` effects that `sfx` names. Default: `podcast-playbook/assets/sfx` (whoosh_1, whoosh_2, pop, stamp, boop, riser) |
 | `theme` | `ink`, `gold`, `red`, `bg` |
 
 ## shots

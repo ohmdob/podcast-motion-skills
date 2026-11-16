@@ -11,7 +11,7 @@ model: claude-opus-5-5
 - **Idea:** the game's best moments, cropped to 9:16 so the hero fills the phone, cut on the beat, with each hit landing a punch-in, a shake, a flash or a word.
 - **Best for:** a game's trailer, a feature or update teaser, a boss fight or a combo reel. Recordings with the game's own big moments on screen (damage numbers, combo counters, ranks, BOSS DEFEATED) work best.
 - **Costs:** nothing. No voice, no generated pictures. The music and SFX are the producer's own.
-- **Needs:** HyperFrames (`npx hyperframes`), ffmpeg, Python 3 with numpy (only for `beat`), a Thai `.ttf` (Mitr SemiBold works) and the show's logo for the end card.
+- **Needs:** HyperFrames (`npx hyperframes`), ffmpeg, Python 3 with numpy (only for `beat`), and the show's logo for the end card. The Thai font and the effects default to the ones bundled in `podcast-playbook/assets`, so keep the folders side by side.
 
 ## Ask first
 

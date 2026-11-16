@@ -3,9 +3,7 @@
  "sources": {"E2": "../../../../../fantasy-diary-ep2.mov", "E3": "../../../../../fantasy-diary-ep3.mov"},
  "music": {"src": "../../../../../fantasy-diary-bgm.mp3", "start": 117.5, "volume": 0.8, "fade_out": 1.6},
  "game_volume": 2.2,
- "font": "hf/assets/fonts/Mitr-SemiBold.ttf",
  "logo": "hf/assets/stills/logo.jpg",
- "sfx_dir": "hf/assets/sfx",
  "theme": {"ink": "#1A1210", "gold": "#F6C54B", "red": "#E0322B", "bg": "#140E0C"},
  "shots": [
   {"id": "s01", "mode": "tall", "src": "E2", "in": 5.90,  "beats": [0, 4],      "cx": [0.52, 0.47], "note": "hook: ult circle, 3251, crescent 977"},
